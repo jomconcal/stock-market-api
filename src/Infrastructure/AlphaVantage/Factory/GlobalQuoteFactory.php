@@ -7,11 +7,11 @@ use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 
 class GlobalQuoteFactory
 {
-
     public static function createGlobalQuoteEntityFromDto(
-        GlobalQuoteDTO $globalQuoteDTO
-    ) : GlobalQuoteEntity{
+        GlobalQuoteDTO $globalQuoteDTO,
+    ): GlobalQuoteEntity {
         $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
+
         return new GlobalQuoteEntity(
             $globalQuoteDTO->getSymbol(),
             $globalQuoteDTO->getOpen(),
@@ -28,9 +28,9 @@ class GlobalQuoteFactory
     }
 
     public static function createGlobalQuoteDtoFromEntity(
-        GlobalQuoteEntity $globalQuoteEntity
-    ) : GlobalQuoteDTO{
-        $rawResponse = json_encode($globalQuoteEntity->getRawResponse(), true);
+        GlobalQuoteEntity $globalQuoteEntity,
+    ): GlobalQuoteDTO {
+        $rawResponse = json_encode($globalQuoteEntity->getRawResponse(), JSON_THROW_ON_ERROR);
         $symbol = $globalQuoteEntity->getSymbol();
         $open = $globalQuoteEntity->getOpen();
         $high = $globalQuoteEntity->getHigh();

@@ -16,13 +16,14 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         parent::__construct($registry, GlobalQuoteEntity::class);
     }
 
-    public function save(GlobalQuoteEntity $entity): void{
+    public function save(GlobalQuoteEntity $entity): void
+    {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
-    public function findByLastFetchedAndSymbol(string $symbol ):?GlobalQuoteEntity{
-
+    public function findByLastFetchedAndSymbol(string $symbol): ?GlobalQuoteEntity
+    {
         $start = new \DateTimeImmutable('today');
         $end = new \DateTimeImmutable('tomorrow');
 
@@ -33,7 +34,8 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         $qB->setParameter('start', $start);
         $qB->setParameter('end', $end);
 
-        $query= $qB->getQuery();
+        $query = $qB->getQuery();
+
         return $query->getOneOrNullResult();
     }
 }

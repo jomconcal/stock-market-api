@@ -9,12 +9,12 @@
         "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-bundle": "^3.2.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
-        "doctrine/orm": "^3.6",
+        "doctrine/orm": "^3.6.3",
         "symfony/console": "8.0.*",
         "symfony/dotenv": "8.0.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.10",
         "symfony/framework-bundle": "8.0.*",
         "symfony/http-client": "8.0.*",
         "symfony/runtime": "8.0.*",
@@ -22,7 +22,10 @@
         "symfony/yaml": "8.0.*"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.67"
+        "friendsofphp/php-cs-fixer": ">=3.95.1",
+        "phpstan/phpstan": ">=2.1.51",
+        "symfony/maker-bundle": "^1.67",
+        "vimeo/psalm": ">=6.16.1"
     },
     "config": {
         "allow-plugins": {

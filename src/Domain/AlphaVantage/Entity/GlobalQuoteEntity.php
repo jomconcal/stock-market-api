@@ -18,7 +18,6 @@ class GlobalQuoteEntity
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-
     public function __construct(
         #[ORM\Column(length: 10)]
         private string $symbol,
@@ -36,26 +35,30 @@ class GlobalQuoteEntity
         private float $price,
 
         #[ORM\Column(type: Types::INTEGER)]
-        private int                $volume,
+        private int $volume,
 
         #[ORM\Column(length: 20)]
-        private string             $latestTradingDay,
+        private string $latestTradingDay,
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float              $previousClose,
+        private float $previousClose,
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float              $priceChange,
+        private float $priceChange,
 
         #[ORM\Column(length: 10)]
-        private string             $changePercent,
+        private string $changePercent,
 
+        /**
+         * @var array<string, mixed>
+         */
         #[ORM\Column(type: Types::JSON)]
-        private array              $rawResponse,
+        private array $rawResponse,
 
         #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-        private \DateTimeInterface $fetchedAt = new \DateTime()
-    ) {}
+        private \DateTimeInterface $fetchedAt = new \DateTime(),
+    ) {
+    }
 
     public function getId(): Uuid
     {
@@ -63,16 +66,66 @@ class GlobalQuoteEntity
     }
 
     // Getters
-    public function getSymbol(): string { return $this->symbol; }
-    public function getOpen(): float { return $this->open; }
-    public function getHigh(): float { return $this->high; }
-    public function getLow(): float { return $this->low; }
-    public function getPrice(): float { return $this->price; }
-    public function getVolume(): int { return $this->volume; }
-    public function getLatestTradingDay(): string { return $this->latestTradingDay; }
-    public function getPreviousClose(): float { return $this->previousClose; }
-    public function getPriceChange(): float { return $this->priceChange; }
-    public function getChangePercent(): string { return $this->changePercent; }
-    public function getRawResponse(): array { return $this->rawResponse; }
-    public function getFetchedAt(): \DateTimeInterface { return $this->fetchedAt; }
+    public function getSymbol(): string
+    {
+        return $this->symbol;
+    }
+
+    public function getOpen(): float
+    {
+        return $this->open;
+    }
+
+    public function getHigh(): float
+    {
+        return $this->high;
+    }
+
+    public function getLow(): float
+    {
+        return $this->low;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function getVolume(): int
+    {
+        return $this->volume;
+    }
+
+    public function getLatestTradingDay(): string
+    {
+        return $this->latestTradingDay;
+    }
+
+    public function getPreviousClose(): float
+    {
+        return $this->previousClose;
+    }
+
+    public function getPriceChange(): float
+    {
+        return $this->priceChange;
+    }
+
+    public function getChangePercent(): string
+    {
+        return $this->changePercent;
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function getRawResponse(): array
+    {
+        return $this->rawResponse;
+    }
+
+    public function getFetchedAt(): \DateTimeInterface
+    {
+        return $this->fetchedAt;
+    }
 }

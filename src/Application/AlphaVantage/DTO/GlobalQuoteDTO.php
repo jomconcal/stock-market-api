@@ -16,8 +16,9 @@ readonly class GlobalQuoteDTO
         private float $change,
         private string $changePercent,
         private string $rawResponse,
-        private string $provider
-    ) {}
+        private string $provider,
+    ) {
+    }
 
     public static function create(
         string $symbol,
@@ -31,7 +32,7 @@ readonly class GlobalQuoteDTO
         float $change,
         string $changePercent,
         string $rawResponse,
-        string $provider
+        string $provider,
     ): self {
         return new self(
             $symbol,
@@ -49,6 +50,9 @@ readonly class GlobalQuoteDTO
         );
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -63,7 +67,7 @@ readonly class GlobalQuoteDTO
             'change' => $this->change,
             'changePercent' => $this->changePercent,
             'rawResponse' => $this->rawResponse,
-            'provider' => $this->provider
+            'provider' => $this->provider,
         ];
     }
 
@@ -121,5 +125,4 @@ readonly class GlobalQuoteDTO
     {
         return $this->rawResponse;
     }
-
 }

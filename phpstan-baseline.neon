@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Property App\\Domain\\AlphaVantage\\Entity\\GlobalQuoteEntity\:\:\$id \(Symfony\\Component\\Uid\\Uuid\|null\) is never assigned Symfony\\Component\\Uid\\Uuid so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Domain/AlphaVantage/Entity/GlobalQuoteEntity.php

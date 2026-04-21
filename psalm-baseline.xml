@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
+  <file src="src/Application/AlphaVantage/Service/GlobalQuoteService.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Domain/AlphaVantage/Entity/GlobalQuoteEntity.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getFetchedAt]]></code>
+      <code><![CDATA[getId]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Domain/AlphaVantage/Repository/GlobalQuoteRepository.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Infrastructure/AlphaVantage/Client/AlphaVantageClient.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Presentation/AlphaVantage/GlobalQuote/Controller/GlobalQuoteController.php">
+    <UnusedClass>
+      <code><![CDATA[GlobalQuoteController]]></code>
+    </UnusedClass>
+  </file>
+</files>
