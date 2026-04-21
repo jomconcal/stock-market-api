@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\AlphaVantage\Entity;
 
-use App\Repository\GlobalQuoteRepository;
+use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;

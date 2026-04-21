@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\AlphaVantage\Repository;
 
-use App\Entity\GlobalQuoteEntity;
+use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
