@@ -2,7 +2,7 @@
 
 namespace App\Application\AlphaVantage\DTO;
 
-readonly class GlobalQuoteDTO
+readonly class GlobalQuoteDto
 {
     private function __construct(
         private string $symbol,
@@ -16,7 +16,6 @@ readonly class GlobalQuoteDTO
         private float $change,
         private string $changePercent,
         private string $rawResponse,
-        private string $provider,
     ) {
     }
 
@@ -32,7 +31,6 @@ readonly class GlobalQuoteDTO
         float $change,
         string $changePercent,
         string $rawResponse,
-        string $provider,
     ): self {
         return new self(
             $symbol,
@@ -45,8 +43,7 @@ readonly class GlobalQuoteDTO
             $previousClose,
             $change,
             $changePercent,
-            $rawResponse,
-            $provider
+            $rawResponse
         );
     }
 
@@ -67,7 +64,6 @@ readonly class GlobalQuoteDTO
             'change' => $this->change,
             'changePercent' => $this->changePercent,
             'rawResponse' => $this->rawResponse,
-            'provider' => $this->provider,
         ];
     }
 

@@ -7,7 +7,6 @@
   </file>
   <file src="src/Domain/AlphaVantage/Entity/GlobalQuoteEntity.php">
     <PossiblyUnusedMethod>
-      <code><![CDATA[getFetchedAt]]></code>
       <code><![CDATA[getId]]></code>
     </PossiblyUnusedMethod>
   </file>

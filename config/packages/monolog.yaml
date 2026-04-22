@@ -1,0 +1,17 @@
+when@dev:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: "%kernel.logs_dir%/app.log"
+                level: debug
+                channels: ["!event"]
+
+when@prod:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: "%kernel.logs_dir%/app.log"
+                level: info
+                channels: ["!event"]

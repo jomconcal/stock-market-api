@@ -17,10 +17,16 @@ final class GlobalQuoteController extends AbstractController
     #[Route('/stocks-market-api/global-quote/{symbol}', methods: ['GET'])]
     public function getGlobalQuote(string $symbol): JsonResponse
     {
-        $stock = $this->globalQuoteService->execute($symbol);
+        $globalQuoteResponse = $this->globalQuoteService->execute($symbol);
+
+        if ($globalQuoteResponse->isError()) {
+            return $this->json(
+                $globalQuoteResponse->getError(),
+            );
+        }
 
         return $this->json(
-            $stock->toArray(),
+            $globalQuoteResponse->getSuccess(),
         );
     }
 }

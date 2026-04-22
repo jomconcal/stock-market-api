@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\AlphaVantage\Client;
 
+use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class AlphaVantageClient
@@ -13,20 +14,28 @@ readonly class AlphaVantageClient
     }
 
     /**
-     *@return array<string, mixed>
+     * @return array<string, mixed>
+     *
+     * @throws AlphaVantageConnectionException
      */
     public function doGlobalQuoteRequest(string $symbol): array
     {
-        $response = $this->client->request(
-            'GET',
-            'https://www.alphavantage.co/query',
-            [
-                'function' => 'GLOBAL_QUOTE',
-                'symbol' => strtoupper($symbol),
-                'apikey' => $this->apiKey,
-            ]
-        );
+        try {
+            $response = $this->client->request(
+                'GET',
+                'https://www.alphavantage.co/query',
+                [
+                    'query' => [
+                        'function' => 'GLOBAL_QUOTE',
+                        'symbol' => strtoupper($symbol),
+                        'apikey' => $this->apiKey,
+                    ],
+                ]
+            );
 
-        return $response->toArray();
+            return $response->toArray();
+        } catch (\Throwable $e) {
+            throw AlphaVantageConnectionException::create($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

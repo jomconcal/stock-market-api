@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Infrastructure\AlphaVantage\Mapper;
+namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
-use App\Application\AlphaVantage\DTO\GlobalQuoteDTO;
+use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 
-class GlobalQuoteMapper
+class GlobalQuoteResponseMapper
 {
     /**
      * @param array<string, mixed> $array
      */
-    public static function mapGlobalQuote(array $array): GlobalQuoteDTO
+    public static function fromApi(array $array): GlobalQuoteDto
     {
         $quote = $array['Global Quote'];
         $symbol = $quote['01. symbol'];
@@ -24,7 +24,7 @@ class GlobalQuoteMapper
         $changePercent = $quote['10. change percent'];
         $rawResponse = json_encode($array);
 
-        return GlobalQuoteDTO::create(
+        return GlobalQuoteDto::create(
             $symbol,
             $open,
             $high,
@@ -35,8 +35,7 @@ class GlobalQuoteMapper
             $previousClose,
             $change,
             $changePercent,
-            $rawResponse,
-            'AlphaVantage'
+            $rawResponse
         );
     }
 }

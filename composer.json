@@ -12,11 +12,13 @@
         "doctrine/doctrine-bundle": "^3.2.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.6.3",
+        "monolog/monolog": "^3.10",
         "symfony/console": "8.0.*",
         "symfony/dotenv": "8.0.*",
         "symfony/flex": "^2.10",
         "symfony/framework-bundle": "8.0.*",
         "symfony/http-client": "8.0.*",
+        "symfony/monolog-bundle": "^4.0",
         "symfony/runtime": "8.0.*",
         "symfony/uid": "8.0.*",
         "symfony/yaml": "8.0.*"
@@ -68,6 +70,16 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "cs-fix": "php-cs-fixer fix --diff",
+        "psalm": "psalm --no-cache --show-info=true",
+        "psalm-baseline": "psalm --set-baseline=psalm-baseline.xml",
+        "phpstan": "phpstan analyse -c phpstan.dist.neon",
+        "phpstan-baseline": "phpstan analyse --generate-baseline",
+        "precommit": [
+            "@cs-fix",
+            "@psalm",
+            "@phpstan"
         ]
     },
     "conflict": {
