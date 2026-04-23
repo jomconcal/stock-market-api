@@ -13,7 +13,7 @@ class GlobalQuoteEntityMapper
         $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
 
         return new GlobalQuoteEntity(
-            $globalQuoteDTO->getSymbol(),
+            $globalQuoteDTO->getSymbol()->value(),
             $globalQuoteDTO->getOpen(),
             $globalQuoteDTO->getHigh(),
             $globalQuoteDTO->getLow(),

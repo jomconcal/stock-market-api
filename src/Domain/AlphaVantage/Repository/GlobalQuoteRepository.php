@@ -3,6 +3,7 @@
 namespace App\Domain\AlphaVantage\Repository;
 
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
+use App\Domain\AlphaVantage\VO\Symbol;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,8 +23,9 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findByLastFetchedAndSymbol(string $symbol): ?GlobalQuoteEntity
+    public function findByLastFetchedAndSymbol(Symbol $symbolVO): ?GlobalQuoteEntity
     {
+        $symbol= $symbolVO->value();
         $start = new \DateTimeImmutable('today');
         $end = new \DateTimeImmutable('tomorrow');
 

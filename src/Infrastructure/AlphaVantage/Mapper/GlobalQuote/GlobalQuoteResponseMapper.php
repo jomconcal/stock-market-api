@@ -3,6 +3,7 @@
 namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Domain\AlphaVantage\VO\Symbol;
 
 class GlobalQuoteResponseMapper
 {
@@ -13,6 +14,7 @@ class GlobalQuoteResponseMapper
     {
         $quote = $array['Global Quote'];
         $symbol = $quote['01. symbol'];
+        $symbolVO= Symbol::create($symbol);
         $open = (float) $quote['02. open'];
         $high = (float) $quote['03. high'];
         $low = (float) $quote['04. low'];
@@ -25,7 +27,7 @@ class GlobalQuoteResponseMapper
         $rawResponse = json_encode($array);
 
         return GlobalQuoteDto::create(
-            $symbol,
+            $symbolVO,
             $open,
             $high,
             $low,

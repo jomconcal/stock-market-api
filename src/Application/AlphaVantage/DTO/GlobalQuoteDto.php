@@ -2,10 +2,12 @@
 
 namespace App\Application\AlphaVantage\DTO;
 
+use App\Domain\AlphaVantage\VO\Symbol;
+
 readonly class GlobalQuoteDto
 {
     private function __construct(
-        private string $symbol,
+        private Symbol $symbol,
         private float $open,
         private float $high,
         private float $low,
@@ -20,7 +22,7 @@ readonly class GlobalQuoteDto
     }
 
     public static function create(
-        string $symbol,
+        Symbol $symbol,
         float $open,
         float $high,
         float $low,
@@ -53,7 +55,7 @@ readonly class GlobalQuoteDto
     public function toArray(): array
     {
         return [
-            'symbol' => $this->symbol,
+            'symbol' => $this->symbol->value(),
             'open' => $this->open,
             'high' => $this->high,
             'low' => $this->low,
@@ -67,7 +69,7 @@ readonly class GlobalQuoteDto
         ];
     }
 
-    public function getSymbol(): string
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }

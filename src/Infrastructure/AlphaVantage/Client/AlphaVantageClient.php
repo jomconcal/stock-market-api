@@ -3,6 +3,7 @@
 namespace App\Infrastructure\AlphaVantage\Client;
 
 use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
+use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class AlphaVantageClient
@@ -26,7 +27,7 @@ readonly class AlphaVantageClient
                 'https://www.alphavantage.co/query',
                 [
                     'query' => [
-                        'function' => 'GLOBAL_QUOTE',
+                        'function' => AlphaVantageFunction::GLOBAL_QUOTE->value,
                         'symbol' => strtoupper($symbol),
                         'apikey' => $this->apiKey,
                     ],

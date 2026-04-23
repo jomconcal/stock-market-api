@@ -4,6 +4,7 @@ namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
+use App\Domain\AlphaVantage\VO\Symbol;
 
 class GlobalQuoteDtoMapper
 {
@@ -11,7 +12,7 @@ class GlobalQuoteDtoMapper
         GlobalQuoteEntity $globalQuoteEntity,
     ): GlobalQuoteDto {
         $rawResponse = json_encode($globalQuoteEntity->getRawResponse(), JSON_THROW_ON_ERROR);
-        $symbol = $globalQuoteEntity->getSymbol();
+        $symbol = Symbol::create($globalQuoteEntity->getSymbol());
         $open = $globalQuoteEntity->getOpen();
         $high = $globalQuoteEntity->getHigh();
         $low = $globalQuoteEntity->getLow();
