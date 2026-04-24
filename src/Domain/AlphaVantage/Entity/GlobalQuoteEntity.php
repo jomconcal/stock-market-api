@@ -10,6 +10,10 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: GlobalQuoteRepository::class)]
 #[ORM\Table(name: 'global_quote')]
+#[ORM\UniqueConstraint(
+    name: 'uniq_symbol_trading_day',
+    columns: ['symbol', 'latest_trading_day']
+)]
 class GlobalQuoteEntity
 {
     #[ORM\Id]
@@ -47,12 +51,6 @@ class GlobalQuoteEntity
 
         #[ORM\Column(length: 10)]
         private string $changePercent,
-
-        /**
-         * @var array<array-key, mixed>
-         */
-        #[ORM\Column(type: Types::JSON)]
-        private array $rawResponse,
 
         #[ORM\Column(type: Types::DATETIME_MUTABLE)]
         private \DateTimeInterface $fetchedAt = new \DateTime(),
@@ -113,14 +111,6 @@ class GlobalQuoteEntity
     public function getChangePercent(): string
     {
         return $this->changePercent;
-    }
-
-    /**
-     * @return array<array-key,mixed>
-     */
-    public function getRawResponse(): array
-    {
-        return $this->rawResponse;
     }
 
     public function getFetchedAt(): \DateTimeInterface

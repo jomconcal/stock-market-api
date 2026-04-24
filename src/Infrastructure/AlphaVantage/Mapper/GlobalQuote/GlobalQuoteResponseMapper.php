@@ -46,8 +46,7 @@ final class GlobalQuoteResponseMapper
             $latestTradingDay,
             $previousClose,
             $change,
-            $changePercent,
-            $rawResponse
+            $changePercent
         );
     }
 }

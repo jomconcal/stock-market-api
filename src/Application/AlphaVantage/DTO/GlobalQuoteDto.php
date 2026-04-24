@@ -17,7 +17,6 @@ readonly class GlobalQuoteDto
         private float $previousClose,
         private float $change,
         private string $changePercent,
-        private string $rawResponse,
     ) {
     }
 
@@ -32,7 +31,6 @@ readonly class GlobalQuoteDto
         float $previousClose,
         float $change,
         string $changePercent,
-        string $rawResponse,
     ): self {
         return new self(
             $symbol,
@@ -44,8 +42,7 @@ readonly class GlobalQuoteDto
             $latestTradingDay,
             $previousClose,
             $change,
-            $changePercent,
-            $rawResponse
+            $changePercent
         );
     }
 
@@ -65,7 +62,6 @@ readonly class GlobalQuoteDto
             'previousClose' => $this->previousClose,
             'change' => $this->change,
             'changePercent' => $this->changePercent,
-            'rawResponse' => $this->rawResponse,
         ];
     }
 
@@ -117,10 +113,5 @@ readonly class GlobalQuoteDto
     public function getChangePercent(): string
     {
         return $this->changePercent;
-    }
-
-    public function getRawResponse(): string
-    {
-        return $this->rawResponse;
     }
 }

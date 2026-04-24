@@ -11,7 +11,6 @@ final class GlobalQuoteDtoMapper
     public static function fromEntity(
         GlobalQuoteEntity $globalQuoteEntity,
     ): GlobalQuoteDto {
-        $rawResponse = json_encode($globalQuoteEntity->getRawResponse(), JSON_THROW_ON_ERROR);
         $symbol = Symbol::create($globalQuoteEntity->getSymbol());
         $open = $globalQuoteEntity->getOpen();
         $high = $globalQuoteEntity->getHigh();
@@ -33,8 +32,7 @@ final class GlobalQuoteDtoMapper
             $latestTradingDay,
             $previousClose,
             $priceChange,
-            $changePercent,
-            $rawResponse
+            $changePercent
         );
     }
 }

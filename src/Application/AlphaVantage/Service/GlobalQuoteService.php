@@ -41,13 +41,10 @@ readonly class GlobalQuoteService
                     'fetched_at' => $globalQuoteEntity->getFetchedAt(),
                 ]);
 
-                /** @var array<array-key, mixed> $rawResponse */
-                $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
-
                 $alphaVantageLog = AlphaVantageLogFactory::fromCache(
                     $symbolVo,
                     AlphaVantageFunction::GLOBAL_QUOTE,
-                    $rawResponse
+                    []
                 );
 
                 $this->alphaVantageLogRepository->save($alphaVantageLog);
@@ -64,13 +61,10 @@ readonly class GlobalQuoteService
                 'fetched_at' => $globalQuoteEntity->getFetchedAt(),
             ]);
 
-            /** @var array<array-key, mixed> $rawResponse */
-            $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
-
             $alphaVantageLog = AlphaVantageLogFactory::fromProvider(
                 $symbolVo,
                 AlphaVantageFunction::GLOBAL_QUOTE,
-                $rawResponse
+                $response
             );
 
             $this->alphaVantageLogRepository->save($alphaVantageLog);
