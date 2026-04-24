@@ -5,12 +5,18 @@ namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 
-class GlobalQuoteEntityMapper
+final class GlobalQuoteEntityMapper
 {
     public static function fromDto(
         GlobalQuoteDto $globalQuoteDTO,
     ): GlobalQuoteEntity {
-        $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
+        $decoded = json_decode($globalQuoteDTO->getRawResponse(), true);
+
+        if (!is_array($decoded)) {
+            throw new \RuntimeException('Invalid JSON in raw response');
+        }
+
+        $rawResponse = $decoded;
 
         return new GlobalQuoteEntity(
             $globalQuoteDTO->getSymbol()->value(),

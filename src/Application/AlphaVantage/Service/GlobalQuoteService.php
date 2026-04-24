@@ -2,7 +2,6 @@
 
 namespace App\Application\AlphaVantage\Service;
 
-use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
 use App\Application\AlphaVantage\Response\GlobalQuoteResponse;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
 use App\Domain\AlphaVantage\Repository\AlphaVantageLogRepository;
@@ -18,12 +17,11 @@ use Psr\Log\LoggerInterface;
 readonly class GlobalQuoteService
 {
     public function __construct(
-        private AlphaVantageClient        $client,
-        private GlobalQuoteRepository     $globalQuoteRepository,
+        private AlphaVantageClient $client,
+        private GlobalQuoteRepository $globalQuoteRepository,
         private AlphaVantageLogRepository $alphaVantageLogRepository,
-        private LoggerInterface           $logger,
-    )
-    {
+        private LoggerInterface $logger,
+    ) {
     }
 
     /**
@@ -33,7 +31,6 @@ readonly class GlobalQuoteService
     {
         $symbolVo = null;
         try {
-
             $symbolVo = Symbol::create($symbol);
             $globalQuoteEntity = $this->globalQuoteRepository->findByLastFetchedAndSymbol($symbolVo);
 
@@ -43,10 +40,14 @@ readonly class GlobalQuoteService
                     'symbol' => $symbolVo->value(),
                     'fetched_at' => $globalQuoteEntity->getFetchedAt(),
                 ]);
+
+                /** @var array<array-key, mixed> $rawResponse */
+                $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
+
                 $alphaVantageLog = AlphaVantageLogFactory::fromCache(
                     $symbolVo,
                     AlphaVantageFunction::GLOBAL_QUOTE,
-                    json_decode($globalQuoteDTO->getRawResponse(), true)
+                    $rawResponse
                 );
 
                 $this->alphaVantageLogRepository->save($alphaVantageLog);
@@ -55,17 +56,21 @@ readonly class GlobalQuoteService
             }
 
             $response = $this->client->doGlobalQuoteRequest($symbol);
-            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response);
+            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response, $symbolVo);
             $globalQuoteEntity = GlobalQuoteEntityMapper::fromDto($globalQuoteDTO);
 
             $this->logger->info('Global Quote retrieved from AlphaVantage', [
                 'symbol' => $symbol,
                 'fetched_at' => $globalQuoteEntity->getFetchedAt(),
             ]);
+
+            /** @var array<array-key, mixed> $rawResponse */
+            $rawResponse = json_decode($globalQuoteDTO->getRawResponse(), true);
+
             $alphaVantageLog = AlphaVantageLogFactory::fromProvider(
                 $symbolVo,
                 AlphaVantageFunction::GLOBAL_QUOTE,
-                json_decode($globalQuoteDTO->getRawResponse(), true)
+                $rawResponse
             );
 
             $this->alphaVantageLogRepository->save($alphaVantageLog);
@@ -78,7 +83,7 @@ readonly class GlobalQuoteService
                 $e->getTrace()
             );
 
-            $symbolValue= $symbolVo?->value()??$symbol;
+            $symbolValue = $symbolVo?->value() ?? $symbol;
             $alphaVantageLog = AlphaVantageLogFactory::fromError(
                 $symbolValue,
                 AlphaVantageFunction::GLOBAL_QUOTE,

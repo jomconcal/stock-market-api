@@ -15,7 +15,7 @@ final class Symbol
     {
     }
 
-    public static function create($symbol):self
+    public static function create(string $symbol): self
     {
         $value = strtoupper($symbol);
 

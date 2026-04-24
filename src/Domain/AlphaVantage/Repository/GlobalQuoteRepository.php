@@ -25,7 +25,7 @@ class GlobalQuoteRepository extends ServiceEntityRepository
 
     public function findByLastFetchedAndSymbol(Symbol $symbolVO): ?GlobalQuoteEntity
     {
-        $symbol= $symbolVO->value();
+        $symbol = $symbolVO->value();
         $start = new \DateTimeImmutable('today');
         $end = new \DateTimeImmutable('tomorrow');
 
@@ -38,6 +38,9 @@ class GlobalQuoteRepository extends ServiceEntityRepository
 
         $query = $qB->getQuery();
 
-        return $query->getOneOrNullResult();
+        /** @var GlobalQuoteEntity|null $result */
+        $result = $query->getOneOrNullResult();
+
+        return $result;
     }
 }

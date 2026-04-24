@@ -6,7 +6,7 @@ use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 use App\Domain\AlphaVantage\VO\Symbol;
 
-class GlobalQuoteDtoMapper
+final class GlobalQuoteDtoMapper
 {
     public static function fromEntity(
         GlobalQuoteEntity $globalQuoteEntity,

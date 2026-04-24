@@ -7,9 +7,9 @@ use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 readonly class GlobalQuoteResponse
 {
     private const string CACHE = 'Cache';
-    public const SUCCESS = 'Success';
-    public const ERROR = 'Error';
-    public const PROVIDER = 'AlphaVantage';
+    public const string SUCCESS = 'Success';
+    public const string ERROR = 'Error';
+    public const string PROVIDER = 'AlphaVantage';
 
     private function __construct(
         private string $status,
@@ -57,7 +57,7 @@ readonly class GlobalQuoteResponse
     {
         return [
             'Status' => $this->status,
-            'Global Quote' => $this->globalQuoteDto->toArray(),
+            'Global Quote' => $this->globalQuoteDto?->toArray(),
             'Provider' => $this->provider,
         ];
     }

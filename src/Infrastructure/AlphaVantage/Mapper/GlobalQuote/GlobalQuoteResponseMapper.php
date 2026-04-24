@@ -4,27 +4,37 @@ namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\VO\Symbol;
+use App\Infrastructure\Parser\ValueParser;
 
-class GlobalQuoteResponseMapper
+final class GlobalQuoteResponseMapper
 {
     /**
-     * @param array<string, mixed> $array
+     * @param array<array-key, mixed> $data
      */
-    public static function fromApi(array $array): GlobalQuoteDto
+    public static function fromApi(array $data, Symbol $symbolVO): GlobalQuoteDto
     {
-        $quote = $array['Global Quote'];
-        $symbol = $quote['01. symbol'];
-        $symbolVO= Symbol::create($symbol);
-        $open = (float) $quote['02. open'];
-        $high = (float) $quote['03. high'];
-        $low = (float) $quote['04. low'];
-        $price = (float) $quote['05. price'];
-        $volume = (int) $quote['06. volume'];
-        $latestTradingDay = $quote['07. latest trading day'];
-        $previousClose = (float) $quote['08. previous close'];
-        $change = (float) $quote['09. change'];
-        $changePercent = $quote['10. change percent'];
-        $rawResponse = json_encode($array);
+        if (!isset($data['Global Quote']) || !is_array($data['Global Quote'])) {
+            throw new \InvalidArgumentException('Invalid response. Global Quote array missing.');
+        }
+
+        /** @var array<string, mixed> $quote */
+        $quote = $data['Global Quote'];
+
+        $open = ValueParser::toFloat($quote['02. open']);
+        $high = ValueParser::toFloat($quote['03. high']);
+        $low = ValueParser::toFloat($quote['04. low']);
+        $price = ValueParser::toFloat($quote['05. price']);
+        $volume = ValueParser::toInt($quote['06. volume']);
+        $latestTradingDay = ValueParser::toString($quote['07. latest trading day']);
+        $previousClose = ValueParser::toFloat($quote['08. previous close']);
+        $change = ValueParser::toFloat($quote['09. change']);
+        $changePercent = ValueParser::toString($quote['10. change percent']);
+
+        $rawResponse = json_encode($data);
+
+        if (false === $rawResponse) {
+            throw new \RuntimeException('Failed to encode raw response');
+        }
 
         return GlobalQuoteDto::create(
             $symbolVO,

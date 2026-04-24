@@ -4,5 +4,5 @@ namespace App\Domain\AlphaVantage\Enum;
 
 enum AlphaVantageFunction: string
 {
-    case GLOBAL_QUOTE= 'GLOBAL_QUOTE';
+    case GLOBAL_QUOTE = 'GLOBAL_QUOTE';
 }

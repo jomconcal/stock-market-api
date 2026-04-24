@@ -12,8 +12,7 @@ final class GlobalQuoteController extends AbstractController
 {
     public function __construct(
         private readonly GlobalQuoteService $globalQuoteService,
-    )
-    {
+    ) {
     }
 
     #[Route('/stocks-market-api/global-quote/{symbol}', methods: ['GET'])]
@@ -32,10 +31,10 @@ final class GlobalQuoteController extends AbstractController
                 $globalQuoteResponse->getSuccess(),
             );
         } catch (\Throwable $exception) {
-           $response = GlobalQuoteResponse::createWithError($exception->getMessage());
+            $response = GlobalQuoteResponse::createWithError($exception->getMessage());
 
             return $this->json(
-               $response->getError(),
+                $response->getError(),
             );
         }
     }

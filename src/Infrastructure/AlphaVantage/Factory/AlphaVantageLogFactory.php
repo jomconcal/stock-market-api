@@ -8,8 +8,11 @@ use App\Domain\AlphaVantage\Enum\AlphaVantageProvider;
 use App\Domain\AlphaVantage\Enum\AlphaVantageStatus;
 use App\Domain\AlphaVantage\VO\Symbol;
 
-class AlphaVantageLogFactory
+final class AlphaVantageLogFactory
 {
+    /**
+     * @param array<array-key, mixed> $rawResponse
+     */
     public static function fromCache(
         Symbol $symbol,
         AlphaVantageFunction $function,
@@ -25,6 +28,9 @@ class AlphaVantageLogFactory
         );
     }
 
+    /**
+     * @param array<array-key, mixed> $rawResponse
+     */
     public static function fromProvider(
         Symbol $symbol,
         AlphaVantageFunction $function,
@@ -40,6 +46,9 @@ class AlphaVantageLogFactory
         );
     }
 
+    /**
+     * @param array<array-key, mixed> $rawResponse
+     */
     public static function fromError(
         string $symbol,
         AlphaVantageFunction $function,

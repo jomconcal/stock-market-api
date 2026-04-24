@@ -14,8 +14,7 @@ class GlobalQuoteEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\GeneratedValue]
     private ?Uuid $id = null;
 
     public function __construct(
@@ -50,7 +49,7 @@ class GlobalQuoteEntity
         private string $changePercent,
 
         /**
-         * @var array<string, mixed>
+         * @var array<array-key, mixed>
          */
         #[ORM\Column(type: Types::JSON)]
         private array $rawResponse,
@@ -60,7 +59,7 @@ class GlobalQuoteEntity
     ) {
     }
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -117,7 +116,7 @@ class GlobalQuoteEntity
     }
 
     /**
-     * @return array<string,mixed>
+     * @return array<array-key,mixed>
      */
     public function getRawResponse(): array
     {
