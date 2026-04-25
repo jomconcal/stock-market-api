@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\AlphaVantage\Client;
 
-use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
-use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
+use App\Domain\AlphaVantage\Client\AlphaVantageClientInterface;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
+use App\Domain\AlphaVantage\Exception\AlphaVantageConnectionException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class AlphaVantageClient implements AlphaVantageClientInterface

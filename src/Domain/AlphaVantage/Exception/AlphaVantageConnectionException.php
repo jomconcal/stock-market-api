@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\AlphaVantage\Exception;
+namespace App\Domain\AlphaVantage\Exception;
 
 class AlphaVantageConnectionException extends \Exception
 {

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Mocks;
 
-use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
+use App\Domain\AlphaVantage\Client\AlphaVantageClientInterface;
 
 class AlphaVantageClientMock implements AlphaVantageClientInterface
 {

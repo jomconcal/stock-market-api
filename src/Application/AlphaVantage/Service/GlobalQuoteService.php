@@ -2,26 +2,26 @@
 
 namespace App\Application\AlphaVantage\Service;
 
-use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Application\AlphaVantage\Factory\AlphaVantageLogFactory;
+use App\Application\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteDtoMapper;
+use App\Application\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
+use App\Application\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
 use App\Application\AlphaVantage\Response\GlobalQuoteResponse;
-use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
+use App\Domain\AlphaVantage\Client\AlphaVantageClientInterface;
+use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
-use App\Domain\AlphaVantage\Repository\AlphaVantageLogRepository;
-use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
+use App\Domain\AlphaVantage\Repository\AlphaVantageLogRepositoryInterface;
+use App\Domain\AlphaVantage\Repository\GlobalQuoteRepositoryInterface;
 use App\Domain\AlphaVantage\VO\Symbol;
-use App\Infrastructure\AlphaVantage\Factory\AlphaVantageLogFactory;
-use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteDtoMapper;
-use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
-use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
 use Psr\Log\LoggerInterface;
 
 readonly class GlobalQuoteService
 {
     public function __construct(
         private AlphaVantageClientInterface $client,
-        private GlobalQuoteRepository $globalQuoteRepository,
-        private AlphaVantageLogRepository $alphaVantageLogRepository,
+        private GlobalQuoteRepositoryInterface $globalQuoteRepository,
+        private AlphaVantageLogRepositoryInterface $alphaVantageLogRepository,
         private LoggerInterface $logger,
     ) {
     }

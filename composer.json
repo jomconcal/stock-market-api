@@ -25,6 +25,7 @@
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.6",
+        "deptrac/deptrac": "^4.6",
         "friendsofphp/php-cs-fixer": ">=3.95.1",
         "phpstan/phpstan": ">=2.1.51",
         "phpstan/phpstan-doctrine": "^2.0",
@@ -84,10 +85,12 @@
         "phpstan": "phpstan analyse -c phpstan.dist.neon",
         "phpstan-baseline": "phpstan analyse --generate-baseline",
         "phpunit": "phpunit",
+        "deptrac": "deptrac analyse --report-uncovered",
         "precommit": [
             "@cs-fix",
             "@psalm",
             "@phpstan",
+            "@deptrac",
             "@phpunit"
         ]
     },

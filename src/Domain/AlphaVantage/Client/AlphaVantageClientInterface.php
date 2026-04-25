@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\AlphaVantage\Service\Client;
+namespace App\Domain\AlphaVantage\Client;
 
-use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
+use App\Domain\AlphaVantage\Exception\AlphaVantageConnectionException;
 
 interface AlphaVantageClientInterface
 {

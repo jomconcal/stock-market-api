@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Domain\AlphaVantage\Repository;
+namespace App\Infrastructure\AlphaVantage\Persistence;
 
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
+use App\Domain\AlphaVantage\Repository\GlobalQuoteRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<GlobalQuoteEntity>
  */
-class GlobalQuoteRepository extends ServiceEntityRepository
+class GlobalQuoteRepository extends ServiceEntityRepository implements GlobalQuoteRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GlobalQuoteEntity::class);
     }
 
+    #[\Override]
     public function save(GlobalQuoteEntity $entity): void
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
+    #[\Override]
     public function findByFetchedTodayAndSymbol(string $symbol): ?GlobalQuoteEntity
     {
         $start = new \DateTime('today');
@@ -42,6 +45,7 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         return $result;
     }
 
+    #[\Override]
     public function replace(GlobalQuoteEntity $globalQuoteEntity): void
     {
         $oldEntity = $this->getBySymbolAndLatestTradingDay(
@@ -59,6 +63,7 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    #[\Override]
     public function getBySymbolAndLatestTradingDay(
         string $symbol,
         string $latestTradingDay): ?GlobalQuoteEntity

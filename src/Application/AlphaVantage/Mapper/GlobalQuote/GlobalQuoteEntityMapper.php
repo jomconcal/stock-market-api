@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
+namespace App\Application\AlphaVantage\Mapper\GlobalQuote;
 
-use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 
 final class GlobalQuoteEntityMapper

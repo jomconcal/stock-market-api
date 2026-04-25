@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Parser;
+namespace App\Application\Parser;
 
 class ValueParser
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\AlphaVantage\DTO;
+namespace App\Domain\AlphaVantage\DTO;
 
 readonly class GlobalQuoteDto
 {

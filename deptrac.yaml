@@ -1,0 +1,50 @@
+deptrac:
+    paths:
+        - ./src
+
+    exclude_files:
+        - '#.*test.*#'
+        - '#.*Entity.*#'
+
+    layers:
+        - name: Presentation
+          collectors:
+              - type: classLike
+                value: ^App\\.*Presentation.*
+
+        - name: Application
+          collectors:
+              - type: classLike
+                value: ^App\\Application\\.*
+
+        - name: Domain
+          collectors:
+              - type: classLike
+                value: ^App\\Domain\\.*
+
+        - name: Infrastructure
+          collectors:
+              - type: classLike
+                value: ^App\\Infrastructure\\.*
+
+        - name: External
+          collectors:
+            - type: classLike
+              value: ^Symfony\\.*
+            - type: classLike
+              value: ^Doctrine\\.*
+            - type: classLike
+              value: ^Psr\\.*
+
+    ruleset:
+        Presentation:
+            - Application
+            - External
+
+        Application:
+            - Domain
+            - External
+
+        Infrastructure:
+            - Domain
+            - External

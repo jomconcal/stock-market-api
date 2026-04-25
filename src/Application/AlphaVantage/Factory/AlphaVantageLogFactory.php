@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\AlphaVantage\Factory;
+namespace App\Application\AlphaVantage\Factory;
 
 use App\Domain\AlphaVantage\Entity\AlphaVantageLog;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;

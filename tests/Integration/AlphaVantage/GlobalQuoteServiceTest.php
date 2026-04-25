@@ -2,11 +2,11 @@
 
 namespace App\Tests\Integration\AlphaVantage;
 
-use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
+use App\Application\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
+use App\Application\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
 use App\Application\AlphaVantage\Service\GlobalQuoteService;
-use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
-use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
-use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
+use App\Domain\AlphaVantage\Client\AlphaVantageClientInterface;
+use App\Infrastructure\AlphaVantage\Persistence\GlobalQuoteRepository;
 use App\Tests\Mocks\AlphaVantageClientMock;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

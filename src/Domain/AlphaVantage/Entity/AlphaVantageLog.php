@@ -5,7 +5,7 @@ namespace App\Domain\AlphaVantage\Entity;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
 use App\Domain\AlphaVantage\Enum\AlphaVantageProvider;
 use App\Domain\AlphaVantage\Enum\AlphaVantageStatus;
-use App\Domain\AlphaVantage\Repository\AlphaVantageLogRepository;
+use App\Infrastructure\AlphaVantage\Persistence\AlphaVantageLogRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;

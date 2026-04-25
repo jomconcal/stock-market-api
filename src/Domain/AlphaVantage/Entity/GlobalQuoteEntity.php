@@ -2,7 +2,7 @@
 
 namespace App\Domain\AlphaVantage\Entity;
 
-use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
+use App\Infrastructure\AlphaVantage\Persistence\GlobalQuoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;

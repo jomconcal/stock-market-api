@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
+namespace App\Application\AlphaVantage\Mapper\GlobalQuote;
 
-use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
-use App\Infrastructure\Parser\ValueParser;
+use App\Application\Parser\ValueParser;
+use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
 
 final class GlobalQuoteResponseMapper
 {

@@ -2,7 +2,7 @@
 
 namespace App\Application\AlphaVantage\Response;
 
-use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
 
 readonly class GlobalQuoteResponse
 {
