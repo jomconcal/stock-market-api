@@ -4,14 +4,13 @@ namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
-use App\Domain\AlphaVantage\VO\Symbol;
 
 final class GlobalQuoteDtoMapper
 {
     public static function fromEntity(
         GlobalQuoteEntity $globalQuoteEntity,
     ): GlobalQuoteDto {
-        $symbol = Symbol::create($globalQuoteEntity->getSymbol());
+        $symbol = $globalQuoteEntity->getSymbol();
         $open = $globalQuoteEntity->getOpen();
         $high = $globalQuoteEntity->getHigh();
         $low = $globalQuoteEntity->getLow();

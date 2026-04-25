@@ -3,7 +3,6 @@
 namespace App\Domain\AlphaVantage\Repository;
 
 use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
-use App\Domain\AlphaVantage\VO\Symbol;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,11 +22,10 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findByLastFetchedAndSymbol(Symbol $symbolVO): ?GlobalQuoteEntity
+    public function findByFetchedTodayAndSymbol(string $symbol): ?GlobalQuoteEntity
     {
-        $symbol = $symbolVO->value();
-        $start = new \DateTimeImmutable('today');
-        $end = new \DateTimeImmutable('tomorrow');
+        $start = new \DateTime('today');
+        $end = new \DateTime('tomorrow');
 
         $qB = $this->createQueryBuilder('gQ');
         $qB->andWhere('gQ.symbol = :symbol');
@@ -36,6 +34,40 @@ class GlobalQuoteRepository extends ServiceEntityRepository
         $qB->setParameter('start', $start);
         $qB->setParameter('end', $end);
 
+        $query = $qB->getQuery();
+
+        /** @var GlobalQuoteEntity|null $result */
+        $result = $query->getOneOrNullResult();
+
+        return $result;
+    }
+
+    public function replace(GlobalQuoteEntity $globalQuoteEntity): void
+    {
+        $oldEntity = $this->getBySymbolAndLatestTradingDay(
+            $globalQuoteEntity->getSymbol(),
+            $globalQuoteEntity->getLatestTradingDay()
+        );
+
+        if (is_null($oldEntity)) {
+            $this->save($globalQuoteEntity);
+
+            return;
+        }
+
+        $oldEntity->setFetchedAt(new \DateTime());
+        $this->getEntityManager()->flush();
+    }
+
+    public function getBySymbolAndLatestTradingDay(
+        string $symbol,
+        string $latestTradingDay): ?GlobalQuoteEntity
+    {
+        $qB = $this->createQueryBuilder('gQ');
+        $qB->andWhere('gQ.symbol = :symbol');
+        $qB->andWhere('gQ.latestTradingDay = :latestTradingDay');
+        $qB->setParameter('symbol', $symbol);
+        $qB->setParameter('latestTradingDay', $latestTradingDay);
         $query = $qB->getQuery();
 
         /** @var GlobalQuoteEntity|null $result */

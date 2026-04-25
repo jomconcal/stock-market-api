@@ -2,12 +2,14 @@
 
 namespace App\Application\AlphaVantage\Service;
 
+use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
 use App\Application\AlphaVantage\Response\GlobalQuoteResponse;
+use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
+use App\Domain\AlphaVantage\Entity\GlobalQuoteEntity;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
 use App\Domain\AlphaVantage\Repository\AlphaVantageLogRepository;
 use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
 use App\Domain\AlphaVantage\VO\Symbol;
-use App\Infrastructure\AlphaVantage\Client\AlphaVantageClient;
 use App\Infrastructure\AlphaVantage\Factory\AlphaVantageLogFactory;
 use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteDtoMapper;
 use App\Infrastructure\AlphaVantage\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
@@ -17,7 +19,7 @@ use Psr\Log\LoggerInterface;
 readonly class GlobalQuoteService
 {
     public function __construct(
-        private AlphaVantageClient $client,
+        private AlphaVantageClientInterface $client,
         private GlobalQuoteRepository $globalQuoteRepository,
         private AlphaVantageLogRepository $alphaVantageLogRepository,
         private LoggerInterface $logger,
@@ -32,7 +34,7 @@ readonly class GlobalQuoteService
         $symbolVo = null;
         try {
             $symbolVo = Symbol::create($symbol);
-            $globalQuoteEntity = $this->globalQuoteRepository->findByLastFetchedAndSymbol($symbolVo);
+            $globalQuoteEntity = $this->globalQuoteRepository->findByFetchedTodayAndSymbol($symbolVo->value());
 
             if ($globalQuoteEntity) {
                 $globalQuoteDTO = GlobalQuoteDtoMapper::fromEntity($globalQuoteEntity);
@@ -53,7 +55,7 @@ readonly class GlobalQuoteService
             }
 
             $response = $this->client->doGlobalQuoteRequest($symbol);
-            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response, $symbolVo);
+            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response);
             $globalQuoteEntity = GlobalQuoteEntityMapper::fromDto($globalQuoteDTO);
 
             $this->logger->info('Global Quote retrieved from AlphaVantage', [
@@ -61,14 +63,7 @@ readonly class GlobalQuoteService
                 'fetched_at' => $globalQuoteEntity->getFetchedAt(),
             ]);
 
-            $alphaVantageLog = AlphaVantageLogFactory::fromProvider(
-                $symbolVo,
-                AlphaVantageFunction::GLOBAL_QUOTE,
-                $response
-            );
-
-            $this->alphaVantageLogRepository->save($alphaVantageLog);
-            $this->globalQuoteRepository->save($globalQuoteEntity);
+            $this->saveOrReplaceGlobalQuote($globalQuoteDTO, $symbolVo, $response, $globalQuoteEntity);
 
             return GlobalQuoteResponse::createFromProvider($globalQuoteDTO);
         } catch (\Throwable $e) {
@@ -88,5 +83,47 @@ readonly class GlobalQuoteService
             $this->alphaVantageLogRepository->save($alphaVantageLog);
             throw $e;
         }
+    }
+
+    private function hasSymbolAndLastTradingDay(
+        GlobalQuoteDto $globalQuoteDTO,
+    ): bool {
+        $symbol = $globalQuoteDTO->getSymbol();
+        $latestTradingDay = $globalQuoteDTO->getLatestTradingDay();
+        $globalQuoteEntity = $this->globalQuoteRepository->getBySymbolAndLatestTradingDay($symbol, $latestTradingDay);
+
+        return !is_null($globalQuoteEntity);
+    }
+
+    /**
+     * @param array<array-key, mixed> $response
+     */
+    public function saveOrReplaceGlobalQuote(
+        GlobalQuoteDto $globalQuoteDTO,
+        Symbol $symbolVo,
+        array $response,
+        GlobalQuoteEntity $globalQuoteEntity): void
+    {
+        if ($this->hasSymbolAndLastTradingDay($globalQuoteDTO)) {
+            $alphaVantageLog = AlphaVantageLogFactory::fromProvider(
+                $symbolVo,
+                AlphaVantageFunction::GLOBAL_QUOTE,
+                $response,
+                true
+            );
+
+            $this->alphaVantageLogRepository->save($alphaVantageLog);
+            $this->globalQuoteRepository->replace($globalQuoteEntity);
+
+            return;
+        }
+        $alphaVantageLog = AlphaVantageLogFactory::fromProvider(
+            $symbolVo,
+            AlphaVantageFunction::GLOBAL_QUOTE,
+            $response
+        );
+
+        $this->alphaVantageLogRepository->save($alphaVantageLog);
+        $this->globalQuoteRepository->save($globalQuoteEntity);
     }
 }

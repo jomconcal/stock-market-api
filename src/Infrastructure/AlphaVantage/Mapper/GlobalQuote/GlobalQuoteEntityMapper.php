@@ -11,7 +11,7 @@ final class GlobalQuoteEntityMapper
         GlobalQuoteDto $globalQuoteDTO,
     ): GlobalQuoteEntity {
         return new GlobalQuoteEntity(
-            $globalQuoteDTO->getSymbol()->value(),
+            $globalQuoteDTO->getSymbol(),
             $globalQuoteDTO->getOpen(),
             $globalQuoteDTO->getHigh(),
             $globalQuoteDTO->getLow(),

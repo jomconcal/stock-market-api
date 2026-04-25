@@ -3,7 +3,6 @@
 namespace App\Infrastructure\AlphaVantage\Mapper\GlobalQuote;
 
 use App\Application\AlphaVantage\DTO\GlobalQuoteDto;
-use App\Domain\AlphaVantage\VO\Symbol;
 use App\Infrastructure\Parser\ValueParser;
 
 final class GlobalQuoteResponseMapper
@@ -11,7 +10,7 @@ final class GlobalQuoteResponseMapper
     /**
      * @param array<array-key, mixed> $data
      */
-    public static function fromApi(array $data, Symbol $symbolVO): GlobalQuoteDto
+    public static function fromApi(array $data): GlobalQuoteDto
     {
         if (!isset($data['Global Quote']) || !is_array($data['Global Quote'])) {
             throw new \InvalidArgumentException('Invalid response. Global Quote array missing.');
@@ -20,6 +19,7 @@ final class GlobalQuoteResponseMapper
         /** @var array<string, mixed> $quote */
         $quote = $data['Global Quote'];
 
+        $symbol = ValueParser::toString($quote['01. symbol']);
         $open = ValueParser::toFloat($quote['02. open']);
         $high = ValueParser::toFloat($quote['03. high']);
         $low = ValueParser::toFloat($quote['04. low']);
@@ -37,7 +37,7 @@ final class GlobalQuoteResponseMapper
         }
 
         return GlobalQuoteDto::create(
-            $symbolVO,
+            $symbol,
             $open,
             $high,
             $low,

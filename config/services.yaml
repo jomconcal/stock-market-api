@@ -26,3 +26,10 @@ services:
     App\Infrastructure\AlphaVantage\Client\AlphaVantageClient:
         arguments:
             $apiKey: '%app.alpha_vantage_key%'
+
+    app.alpha_vantage_client:
+        alias: App\Infrastructure\AlphaVantage\Client\AlphaVantageClient
+
+    App\Application\AlphaVantage\Service\GlobalQuoteService:
+        arguments:
+            $client: '@app.alpha_vantage_client'

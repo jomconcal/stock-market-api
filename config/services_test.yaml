@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Registra el mock
+    App\Tests\Mocks\AlphaVantageClientMock: ~
+
+    # Alias para el ID corto (lo usa GlobalQuoteService)
+    app.alpha_vantage_client:
+        alias: App\Tests\Mocks\AlphaVantageClientMock
+        public: true
+
+    # Alias para la interfaz (lo usa tu test al hacer $container->get)
+    App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface:
+        alias: App\Tests\Mocks\AlphaVantageClientMock
+        public: true
+
+    # GlobalQuoteService seguirá recibiendo '@app.alpha_vantage_client', que ahora es el mock
+    # No es necesario redefinir el servicio, porque el alias ya cambió

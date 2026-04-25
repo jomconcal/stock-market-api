@@ -3,10 +3,11 @@
 namespace App\Infrastructure\AlphaVantage\Client;
 
 use App\Application\AlphaVantage\Exception\AlphaVantageConnectionException;
+use App\Application\AlphaVantage\Service\Client\AlphaVantageClientInterface;
 use App\Domain\AlphaVantage\Enum\AlphaVantageFunction;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final readonly class AlphaVantageClient
+final readonly class AlphaVantageClient implements AlphaVantageClientInterface
 {
     public function __construct(
         private HttpClientInterface $client,
@@ -19,6 +20,7 @@ final readonly class AlphaVantageClient
      *
      * @throws AlphaVantageConnectionException
      */
+    #[\Override]
     public function doGlobalQuoteRequest(string $symbol): array
     {
         try {

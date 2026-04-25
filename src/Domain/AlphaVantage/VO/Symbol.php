@@ -9,6 +9,7 @@ final class Symbol
      */
     private const array ALLOWED = [
         'AAPL',
+        'GOOG',
     ];
 
     private function __construct(private readonly string $value)

@@ -1,0 +1,30 @@
+[
+    {
+        "Global Quote": {
+            "01. symbol": "AAPL",
+            "02. open": "100",
+            "03. high": "110",
+            "04. low": "90",
+            "05. price": "105",
+            "06. volume": "1000",
+            "07. latest trading day": "today",
+            "08. previous close": "102",
+            "09. change": "3",
+            "10. change percent": "3%"
+        }
+    },
+    {
+        "Global Quote": {
+            "01. symbol": "GOOG",
+            "02. open": "200",
+            "03. high": "210",
+            "04. low": "190",
+            "05. price": "205",
+            "06. volume": "2000",
+            "07. latest trading day": "yesterday",
+            "08. previous close": "202",
+            "09. change": "3",
+            "10. change percent": "1.5%"
+        }
+    }
+]

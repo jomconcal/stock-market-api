@@ -5,6 +5,7 @@ namespace App\Domain\AlphaVantage\Entity;
 use App\Domain\AlphaVantage\Repository\GlobalQuoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
@@ -18,7 +19,8 @@ class GlobalQuoteEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
     public function __construct(
@@ -116,5 +118,10 @@ class GlobalQuoteEntity
     public function getFetchedAt(): \DateTimeInterface
     {
         return $this->fetchedAt;
+    }
+
+    public function setFetchedAt(\DateTimeInterface $fetchedAt): void
+    {
+        $this->fetchedAt = $fetchedAt;
     }
 }

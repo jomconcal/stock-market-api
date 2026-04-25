@@ -35,9 +35,16 @@ final class AlphaVantageLogFactory
         Symbol $symbol,
         AlphaVantageFunction $function,
         array $rawResponse,
+        bool $replaced = false,
     ): AlphaVantageLog {
+        if ($replaced) {
+            $status = AlphaVantageStatus::REPLACED;
+        } else {
+            $status = AlphaVantageStatus::SUCCESS;
+        }
+
         return new AlphaVantageLog(
-            AlphaVantageStatus::SUCCESS,
+            $status,
             $symbol->value(),
             $function,
             AlphaVantageProvider::ALPHA_VANTAGE,
