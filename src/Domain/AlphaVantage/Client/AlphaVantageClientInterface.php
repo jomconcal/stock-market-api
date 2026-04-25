@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\AlphaVantage\Client;
 
 use App\Domain\AlphaVantage\Exception\AlphaVantageConnectionException;

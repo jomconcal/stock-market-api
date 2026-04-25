@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presentation\AlphaVantage\GlobalQuote\Controller;
 
 use App\Application\AlphaVantage\Response\GlobalQuoteResponse;

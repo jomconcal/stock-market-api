@@ -36,7 +36,7 @@ readonly class GlobalQuoteService
             $symbolVo = Symbol::create($symbol);
             $globalQuoteEntity = $this->globalQuoteRepository->findByFetchedTodayAndSymbol($symbolVo->value());
 
-            if ($globalQuoteEntity) {
+            if (null != $globalQuoteEntity) {
                 $globalQuoteDTO = GlobalQuoteDtoMapper::fromEntity($globalQuoteEntity);
                 $this->logger->info('Global Quote retrieved from cache', [
                     'symbol' => $symbolVo->value(),

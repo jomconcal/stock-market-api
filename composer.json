@@ -31,6 +31,7 @@
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
         "phpunit/phpunit": "^13.1",
+        "rector/rector": "^2.4",
         "symfony/browser-kit": "8.0.*",
         "symfony/clock": "8.0.*",
         "symfony/css-selector": "8.0.*",
@@ -86,7 +87,9 @@
         "phpstan-baseline": "phpstan analyse --generate-baseline",
         "phpunit": "phpunit",
         "deptrac": "deptrac analyse --report-uncovered",
+        "rector": "rector process",
         "precommit": [
+            "@rector",
             "@cs-fix",
             "@psalm",
             "@phpstan",

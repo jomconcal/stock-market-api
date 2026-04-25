@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\AlphaVantage\Client;
 
 use App\Domain\AlphaVantage\Client\AlphaVantageClientInterface;
