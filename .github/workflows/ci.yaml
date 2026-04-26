@@ -24,7 +24,7 @@ jobs:
             DB_PASSWORD: password_test
             DB_HOST: 127.0.0.1
             DB_PORT: 3306
-            DB_NAME: stock-market_test
+            DB_NAME: stock-market
 
         steps:
             - name: Checkout code
@@ -38,6 +38,12 @@ jobs:
 
             - name: Install dependencies
               run: composer install --no-interaction --prefer-dist
+
+            - name: Create database schema
+              run: php bin/console doctrine:schema:create --env=test --no-interaction
+
+            - name: Tests
+              run: vendor/bin/phpunit
 
             - name: CS Fixer
               run: vendor/bin/php-cs-fixer fix --dry-run --diff
@@ -54,5 +60,3 @@ jobs:
             - name: Rector
               run: vendor/bin/rector process --dry-run
 
-            - name: Tests
-              run: vendor/bin/phpunit
