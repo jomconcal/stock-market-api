@@ -42,9 +42,6 @@ jobs:
             - name: Create database schema
               run: php bin/console doctrine:schema:create --env=test --no-interaction
 
-            - name: Tests
-              run: vendor/bin/phpunit
-
             - name: CS Fixer
               run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
@@ -58,5 +55,8 @@ jobs:
               run: vendor/bin/deptrac analyse --report-uncovered
 
             - name: Rector
-              run: vendor/bin/rector process --dry-run
+              run: vendor/bin/rector process --dry-ru
+
+            - name: Tests
+              run: vendor/bin/phpunit
 
