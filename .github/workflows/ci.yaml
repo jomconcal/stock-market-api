@@ -55,7 +55,7 @@ jobs:
               run: vendor/bin/deptrac analyse --report-uncovered
 
             - name: Rector
-              run: vendor/bin/rector process --dry-ru
+              run: vendor/bin/rector process --dry-run
 
             - name: Tests
               run: vendor/bin/phpunit
