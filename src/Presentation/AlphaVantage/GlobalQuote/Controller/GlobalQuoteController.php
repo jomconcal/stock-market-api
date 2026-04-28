@@ -23,6 +23,7 @@ final class GlobalQuoteController extends AbstractController
         try {
             $globalQuoteResponse = $this->globalQuoteService->execute($symbol);
 
+
             if ($globalQuoteResponse->isError()) {
                 return $this->json(
                     $globalQuoteResponse->getError(),
