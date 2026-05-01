@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertNull;
 
-class GlobalQuoteServiceTest extends KernelTestCase
+class GlobalQuoteServiceIntegrationTest extends KernelTestCase
 {
     private GlobalQuoteService $globalQuoteService;
     private GlobalQuoteRepository $globalQuoteRepository;

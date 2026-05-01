@@ -8,8 +8,27 @@ final class Symbol
      * @var array<string>
      */
     private const array ALLOWED = [
-        'AAPL',
-        'GOOG',
+        'AAPL', // Apple Inc.
+        'MSFT', // Microsoft
+        'GOOG', // Alphabet Inc.
+        'AMZN', // Amazon
+        'NVDA', // NVIDIA
+        'META', // Meta Platforms
+        'TSLA', // Tesla
+        'TM', // Toyota
+        'XOM', // ExxonMobil
+        'SHEL', // Shell plc
+        'JPM', // JPMorgan Chase
+        'GS', // Goldman Sachs
+        'V', // Visa
+        'KO', // Coca-Cola
+        'PEP', // PepsiCo
+        'WMT', // Walmart
+        'NKE', // Nike
+        'ITX.MAD', // Inditex
+        'SAN.MAD', // Banco Santander
+        'BBVA.MAD', // BBVA
+        'IBE.MAD', // Iberdrola
     ];
 
     private function __construct(private readonly string $value)
@@ -18,7 +37,7 @@ final class Symbol
 
     public static function create(string $symbol): self
     {
-        $value = strtoupper($symbol);
+        $value = trim(strtoupper($symbol));
 
         if (!in_array($value, self::ALLOWED, true)) {
             throw new \InvalidArgumentException("Symbol not allowed: $value");

@@ -6,9 +6,9 @@ use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
 
 readonly class GlobalQuoteResponse
 {
-    private const string CACHE = 'Cache';
-    public const string SUCCESS = 'Success';
-    public const string ERROR = 'Error';
+    private const string CACHE = 'CACHE';
+    public const string SUCCESS = 'SUCCESS';
+    public const string ERROR = 'ERROR';
     public const string PROVIDER = 'AlphaVantage';
 
     private function __construct(
@@ -56,9 +56,9 @@ readonly class GlobalQuoteResponse
     public function getSuccess(): array
     {
         return [
-            'Status' => $this->status,
-            'Global Quote' => $this->globalQuoteDto?->toArray(),
-            'Provider' => $this->provider,
+            'status' => $this->status,
+            'globalQuote' => $this->globalQuoteDto?->toArray(),
+            'provider' => $this->provider,
         ];
     }
 
@@ -68,8 +68,8 @@ readonly class GlobalQuoteResponse
     public function getError(): array
     {
         return [
-            'Status' => $this->status,
-            'Message' => $this->message,
+            'status' => $this->status,
+            'message' => $this->message,
         ];
     }
 
