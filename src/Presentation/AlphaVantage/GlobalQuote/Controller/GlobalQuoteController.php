@@ -33,7 +33,7 @@ final class GlobalQuoteController extends AbstractController
                 $globalQuoteResponse->getSuccess(),
             );
         } catch (\Throwable $exception) {
-            $response = GlobalQuoteResponse::createWithError($exception->getMessage());
+            $response = GlobalQuoteResponse::createWithError($exception);
 
             return $this->json(
                 $response->getError(),

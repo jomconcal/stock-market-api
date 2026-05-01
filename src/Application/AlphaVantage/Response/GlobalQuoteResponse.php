@@ -3,6 +3,7 @@
 namespace App\Application\AlphaVantage\Response;
 
 use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Domain\StatusCode\HTTP_CODE;
 
 readonly class GlobalQuoteResponse
 {
@@ -16,6 +17,7 @@ readonly class GlobalQuoteResponse
         private ?GlobalQuoteDto $globalQuoteDto,
         private ?string $provider,
         private ?string $message,
+        private int $code,
     ) {
     }
 
@@ -26,7 +28,8 @@ readonly class GlobalQuoteResponse
             self::SUCCESS,
             $globalQuoteDto,
             self::PROVIDER,
-            null
+            null,
+            HTTP_CODE::OK
         );
     }
 
@@ -36,17 +39,22 @@ readonly class GlobalQuoteResponse
             self::SUCCESS,
             $globalQuoteDto,
             self::CACHE,
-            null
+            null,
+            HTTP_CODE::OK
         );
     }
 
-    public static function createWithError(string $message): self
+    public static function createWithError(\Throwable $error): self
     {
+        $message = $error->getMessage();
+        $code = (int) $error->getCode();
+
         return new self(
             self::ERROR,
             null,
             null,
-            $message
+            $message,
+            $code
         );
     }
 
@@ -56,6 +64,7 @@ readonly class GlobalQuoteResponse
     public function getSuccess(): array
     {
         return [
+            'code' => $this->code,
             'status' => $this->status,
             'globalQuote' => $this->globalQuoteDto?->toArray(),
             'provider' => $this->provider,
@@ -68,6 +77,7 @@ readonly class GlobalQuoteResponse
     public function getError(): array
     {
         return [
+            'code' => $this->code,
             'status' => $this->status,
             'message' => $this->message,
         ];

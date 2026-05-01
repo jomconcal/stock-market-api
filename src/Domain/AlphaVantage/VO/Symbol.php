@@ -25,10 +25,10 @@ final class Symbol
         'PEP', // PepsiCo
         'WMT', // Walmart
         'NKE', // Nike
-        'ITX.MAD', // Inditex
-        'SAN.MAD', // Banco Santander
-        'BBVA.MAD', // BBVA
-        'IBE.MAD', // Iberdrola
+        'ITX.MC', // Inditex
+        'SAN.MC', // Banco Santander
+        'BBVA.MC', // BBVA
+        'IBE.MC', // Iberdrola
     ];
 
     private function __construct(private readonly string $value)
