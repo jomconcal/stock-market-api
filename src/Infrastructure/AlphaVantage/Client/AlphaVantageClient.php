@@ -40,7 +40,7 @@ final readonly class AlphaVantageClient implements AlphaVantageClientInterface
 
             return $response->toArray();
         } catch (\Throwable $e) {
-            throw AlphaVantageConnectionException::create($e->getMessage(), (int) $e->getCode(), $e);
+            throw AlphaVantageConnectionException::create($e->getMessage(), $e);
         }
     }
 }

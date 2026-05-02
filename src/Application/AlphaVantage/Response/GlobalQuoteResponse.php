@@ -3,12 +3,13 @@
 namespace App\Application\AlphaVantage\Response;
 
 use App\Domain\AlphaVantage\DTO\GlobalQuoteDto;
+use App\Domain\StatusCode\HTTP_CODE;
 
 readonly class GlobalQuoteResponse
 {
-    private const string CACHE = 'Cache';
-    public const string SUCCESS = 'Success';
-    public const string ERROR = 'Error';
+    private const string CACHE = 'CACHE';
+    public const string SUCCESS = 'SUCCESS';
+    public const string ERROR = 'ERROR';
     public const string PROVIDER = 'AlphaVantage';
 
     private function __construct(
@@ -16,6 +17,7 @@ readonly class GlobalQuoteResponse
         private ?GlobalQuoteDto $globalQuoteDto,
         private ?string $provider,
         private ?string $message,
+        private int $code,
     ) {
     }
 
@@ -26,7 +28,8 @@ readonly class GlobalQuoteResponse
             self::SUCCESS,
             $globalQuoteDto,
             self::PROVIDER,
-            null
+            null,
+            HTTP_CODE::OK
         );
     }
 
@@ -36,17 +39,22 @@ readonly class GlobalQuoteResponse
             self::SUCCESS,
             $globalQuoteDto,
             self::CACHE,
-            null
+            null,
+            HTTP_CODE::OK
         );
     }
 
-    public static function createWithError(string $message): self
+    public static function createWithError(\Throwable $error): self
     {
+        $message = $error->getMessage();
+        $code = (int) $error->getCode();
+
         return new self(
             self::ERROR,
             null,
             null,
-            $message
+            $message,
+            $code
         );
     }
 
@@ -56,9 +64,10 @@ readonly class GlobalQuoteResponse
     public function getSuccess(): array
     {
         return [
-            'Status' => $this->status,
-            'Global Quote' => $this->globalQuoteDto?->toArray(),
-            'Provider' => $this->provider,
+            'code' => $this->code,
+            'status' => $this->status,
+            'globalQuote' => $this->globalQuoteDto?->toArray(),
+            'provider' => $this->provider,
         ];
     }
 
@@ -68,8 +77,9 @@ readonly class GlobalQuoteResponse
     public function getError(): array
     {
         return [
-            'Status' => $this->status,
-            'Message' => $this->message,
+            'code' => $this->code,
+            'status' => $this->status,
+            'message' => $this->message,
         ];
     }
 

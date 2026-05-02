@@ -6,8 +6,8 @@ namespace App\Domain\AlphaVantage\Enum;
 
 enum AlphaVantageStatus: string
 {
-    case SUCCESS = 'success';
-    case ERROR = 'error';
-    case WARNING = 'warning';
-    case REPLACED = 'replaced';
+    case SUCCESS = 'SUCCESS';
+    case ERROR = 'ERROR';
+    case WARNING = 'WARNING';
+    case REPLACED = 'REPLACED';
 }
