@@ -5,10 +5,10 @@ namespace App\Application\FinnHub\Service;
 use App\Application\FinnHub\Factory\FinnHubLogFactory;
 use App\Application\FinnHub\Mapper\GlobalQuote\GlobalQuoteDtoMapper;
 use App\Application\FinnHub\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
-use App\Application\FinnHub\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
+use App\Application\FinnHub\Mapper\GlobalQuote\QuoteResponseMapper;
 use App\Application\FinnHub\Response\GlobalQuoteResponse;
 use App\Domain\FinnHub\Client\FinnHubClientInterface;
-use App\Domain\FinnHub\DTO\GlobalQuoteDto;
+use App\Domain\FinnHub\DTO\QuoteDto;
 use App\Domain\FinnHub\Entity\GlobalQuoteEntity;
 use App\Domain\FinnHub\Enum\FinnHubFunction;
 use App\Domain\FinnHub\Repository\FinnHubLogRepositoryInterface;
@@ -55,7 +55,7 @@ readonly class GlobalQuoteService
             }
 
             $response = $this->client->doGlobalQuoteRequest($symbol);
-            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response);
+            $globalQuoteDTO = QuoteResponseMapper::fromApi($response, $symbol);
             $globalQuoteEntity = GlobalQuoteEntityMapper::fromDto($globalQuoteDTO);
 
             $this->logger->info('Global Quote retrieved from FinnHub', [
@@ -86,7 +86,7 @@ readonly class GlobalQuoteService
     }
 
     private function hasSymbolAndLastTradingDay(
-        GlobalQuoteDto $globalQuoteDTO,
+        QuoteDto $globalQuoteDTO,
     ): bool {
         $symbol = $globalQuoteDTO->getSymbol();
         $latestTradingDay = $globalQuoteDTO->getLatestTradingDay();
@@ -99,9 +99,9 @@ readonly class GlobalQuoteService
      * @param array<array-key, mixed> $response
      */
     public function saveOrReplaceGlobalQuote(
-        GlobalQuoteDto $globalQuoteDTO,
-        Symbol $symbolVo,
-        array $response,
+        QuoteDto          $globalQuoteDTO,
+        Symbol            $symbolVo,
+        array             $response,
         GlobalQuoteEntity $globalQuoteEntity): void
     {
         if ($this->hasSymbolAndLastTradingDay($globalQuoteDTO)) {

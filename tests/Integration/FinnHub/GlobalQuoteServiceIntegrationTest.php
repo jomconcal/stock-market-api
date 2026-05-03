@@ -3,7 +3,7 @@
 namespace App\Tests\Integration\FinnHub;
 
 use App\Application\FinnHub\Mapper\GlobalQuote\GlobalQuoteEntityMapper;
-use App\Application\FinnHub\Mapper\GlobalQuote\GlobalQuoteResponseMapper;
+use App\Application\FinnHub\Mapper\GlobalQuote\QuoteResponseMapper;
 use App\Application\FinnHub\Service\GlobalQuoteService;
 use App\Domain\FinnHub\Client\FinnHubClientInterface;
 use App\Infrastructure\FinnHub\Persistence\GlobalQuoteRepository;
@@ -107,7 +107,7 @@ class GlobalQuoteServiceIntegrationTest extends KernelTestCase
             $dateTime->modify('-1 day');
             $dateNormalized = $dateTime->format('Y-m-d');
             $response['Global Quote']['07. latest trading day'] = $dateNormalized;
-            $globalQuoteDTO = GlobalQuoteResponseMapper::fromApi($response);
+            $globalQuoteDTO = QuoteResponseMapper::fromApi($response);
             $globalQuoteEntity = GlobalQuoteEntityMapper::fromDto($globalQuoteDTO);
             $globalQuoteEntity->setFetchedAt(new \DateTime('yesterday'));
             $this->globalQuoteRepository->save($globalQuoteEntity);

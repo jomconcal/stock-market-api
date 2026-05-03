@@ -2,7 +2,7 @@
 
 namespace App\Application\FinnHub\Response;
 
-use App\Domain\FinnHub\DTO\GlobalQuoteDto;
+use App\Domain\FinnHub\DTO\QuoteDto;
 use App\Domain\StatusCode\HTTP_CODE;
 
 readonly class GlobalQuoteResponse
@@ -13,16 +13,16 @@ readonly class GlobalQuoteResponse
     public const string PROVIDER = 'FinnHub';
 
     private function __construct(
-        private string $status,
-        private ?GlobalQuoteDto $globalQuoteDto,
-        private ?string $provider,
-        private ?string $message,
-        private int $code,
+        private string    $status,
+        private ?QuoteDto $globalQuoteDto,
+        private ?string   $provider,
+        private ?string   $message,
+        private int       $code,
     ) {
     }
 
     public static function createFromProvider(
-        GlobalQuoteDto $globalQuoteDto): self
+        QuoteDto $globalQuoteDto): self
     {
         return new self(
             self::SUCCESS,
@@ -33,7 +33,7 @@ readonly class GlobalQuoteResponse
         );
     }
 
-    public static function createFromCache(GlobalQuoteDto $globalQuoteDto): self
+    public static function createFromCache(QuoteDto $globalQuoteDto): self
     {
         return new self(
             self::SUCCESS,

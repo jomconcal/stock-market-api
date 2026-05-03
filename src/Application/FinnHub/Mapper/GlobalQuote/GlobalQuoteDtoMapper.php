@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Application\FinnHub\Mapper\GlobalQuote;
 
-use App\Domain\FinnHub\DTO\GlobalQuoteDto;
+use App\Domain\FinnHub\DTO\QuoteDto;
 use App\Domain\FinnHub\Entity\GlobalQuoteEntity;
 
 final class GlobalQuoteDtoMapper
 {
     public static function fromEntity(
         GlobalQuoteEntity $globalQuoteEntity,
-    ): GlobalQuoteDto {
+    ): QuoteDto {
         $symbol = $globalQuoteEntity->getSymbol();
         $open = $globalQuoteEntity->getOpen();
         $high = $globalQuoteEntity->getHigh();
@@ -23,7 +23,7 @@ final class GlobalQuoteDtoMapper
         $priceChange = $globalQuoteEntity->getPriceChange();
         $changePercent = $globalQuoteEntity->getChangePercent();
 
-        return GlobalQuoteDto::create(
+        return QuoteDto::create(
             $symbol,
             $open,
             $high,
