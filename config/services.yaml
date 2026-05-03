@@ -7,7 +7,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    app.alpha_vantage_key: '%env(ALPHA_VANTAGE_KEY)%'
+    app.finn_hub_key: '%env(FINN_HUB_KEY)%'
 
 services:
     # default configuration for services in *this* file
@@ -23,13 +23,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Infrastructure\AlphaVantage\Client\AlphaVantageClient:
+    App\Infrastructure\FinnHub\Client\FinnHubClient:
         arguments:
-            $apiKey: '%app.alpha_vantage_key%'
+            $apiKey: '%app.finn_hub_key%'
 
-    app.alpha_vantage_client:
-        alias: App\Infrastructure\AlphaVantage\Client\AlphaVantageClient
+    app.finn_hub_client:
+        alias: App\Infrastructure\FinnHub\Client\FinnHubClient
 
-    App\Application\AlphaVantage\Service\GlobalQuoteService:
+    App\Application\FinnHub\Service\GlobalQuoteService:
         arguments:
-            $client: '@app.alpha_vantage_client'
+            $client: '@app.finn_hub_client'

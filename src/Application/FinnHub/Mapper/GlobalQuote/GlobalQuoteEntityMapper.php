@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Application\FinnHub\Mapper\GlobalQuote;
+
+use App\Domain\FinnHub\DTO\GlobalQuoteDto;
+use App\Domain\FinnHub\Entity\GlobalQuoteEntity;
+
+final class GlobalQuoteEntityMapper
+{
+    public static function fromDto(
+        GlobalQuoteDto $globalQuoteDTO,
+    ): GlobalQuoteEntity {
+        return new GlobalQuoteEntity(
+            $globalQuoteDTO->getSymbol(),
+            $globalQuoteDTO->getOpen(),
+            $globalQuoteDTO->getHigh(),
+            $globalQuoteDTO->getLow(),
+            $globalQuoteDTO->getPrice(),
+            $globalQuoteDTO->getVolume(),
+            $globalQuoteDTO->getLatestTradingDay(),
+            $globalQuoteDTO->getPreviousClose(),
+            $globalQuoteDTO->getChange(),
+            $globalQuoteDTO->getChangePercent()
+        );
+    }
+}
