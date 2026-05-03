@@ -1,0 +1,65 @@
+### Apple Inc.
+GET http://localhost:8000/stocks-market-api/quote/AAPL
+
+### Microsoft
+GET http://localhost:8000/stocks-market-api/quote/MSFT
+
+### Alphabet Inc.
+GET http://localhost:8000/stocks-market-api/quote/GOOG
+
+### Amazon
+GET http://localhost:8000/stocks-market-api/quote/AMZN
+
+### NVIDIA
+GET http://localhost:8000/stocks-market-api/quote/NVDA
+
+### Meta Platforms
+GET http://localhost:8000/stocks-market-api/quote/META
+
+### Tesla
+GET http://localhost:8000/stocks-market-api/quote/TSLA
+
+### Toyota
+GET http://localhost:8000/stocks-market-api/quote/TM
+
+### ExxonMobil
+GET http://localhost:8000/stocks-market-api/quote/XOM
+
+### Shell plc
+GET http://localhost:8000/stocks-market-api/quote/SHEL
+
+### JPMorgan Chase
+GET http://localhost:8000/stocks-market-api/quote/JPM
+
+### Goldman Sachs
+GET http://localhost:8000/stocks-market-api/quote/GS
+
+### Visa
+GET http://localhost:8000/stocks-market-api/quote/V
+
+### Coca-Cola
+GET http://localhost:8000/stocks-market-api/quote/KO
+
+### PepsiCo
+GET http://localhost:8000/stocks-market-api/quote/PEP
+
+### Walmart
+GET http://localhost:8000/stocks-market-api/quote/WMT
+
+### Nike
+GET http://localhost:8000/stocks-market-api/quote/NKE
+
+
+### 🇪🇸 España
+
+### Inditex
+GET http://localhost:8000/stocks-market-api/quote/ITX.MC
+
+### Banco Santander
+GET http://localhost:8000/stocks-market-api/quote/SAN.MC
+
+### BBVA
+GET http://localhost:8000/stocks-market-api/quote/BBVA.MC
+
+### Iberdrola
+GET http://localhost:8000/stocks-market-api/quote/IBE.MC
