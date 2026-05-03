@@ -3,12 +3,12 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Mocks\FinnHubClientMock: ~
+    App\Tests\Integration\FinnHub\Mocks\FinnHubClientMock: ~
 
     app.finn_hub_client:
-        alias: App\Tests\Mocks\FinnHubClientMock
+        alias: App\Tests\Integration\FinnHub\Mocks\FinnHubClientMock
         public: true
 
     App\Domain\FinnHub\Client\FinnHubClientInterface:
-        alias: App\Tests\Mocks\FinnHubClientMock
+        alias: App\Tests\Integration\FinnHub\Mocks\FinnHubClientMock
         public: true

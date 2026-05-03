@@ -2,20 +2,20 @@
 
 namespace App\Domain\FinnHub\Entity;
 
-use App\Infrastructure\FinnHub\Persistence\GlobalQuoteRepository;
+use App\Infrastructure\FinnHub\Persistence\QuoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: GlobalQuoteRepository::class)]
+#[ORM\Entity(repositoryClass: QuoteRepository::class)]
 #[ORM\Table(name: 'global_quote')]
 #[ORM\UniqueConstraint(
-    name: 'uniq_symbol_trading_day',
-    columns: ['symbol', 'latest_trading_day']
+    name: 'uniq_symbol_last_update',
+    columns: ['symbol', 'last_update']
 )]
-class GlobalQuoteEntity
+class QuoteEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -23,40 +23,38 @@ class GlobalQuoteEntity
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private \DateTimeInterface $fetchedAt;
+
     public function __construct(
         #[ORM\Column(length: 10)]
         private string $symbol,
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $open,
+        private float $currentPrice,   // c
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $high,
+        private float $priceChange,          // d
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $low,
+        private float $changePercent,   // dp
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $price,
-
-        #[ORM\Column(type: Types::INTEGER)]
-        private int $volume,
-
-        #[ORM\Column(length: 20)]
-        private string $latestTradingDay,
+        private float $high,            // h
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $previousClose,
+        private float $low,             // l
 
         #[ORM\Column(type: Types::FLOAT)]
-        private float $priceChange,
+        private float $open,            // o
 
-        #[ORM\Column(length: 10)]
-        private string $changePercent,
+        #[ORM\Column(type: Types::FLOAT)]
+        private float $previousClose,   // pc
 
-        #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-        private \DateTimeInterface $fetchedAt = new \DateTime(),
+        #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+        private \DateTimeImmutable $lastUpdate, // t
     ) {
+        $this->fetchedAt = new \DateTime();
     }
 
     public function getId(): ?Uuid
@@ -64,15 +62,24 @@ class GlobalQuoteEntity
         return $this->id;
     }
 
-    // Getters
     public function getSymbol(): string
     {
         return $this->symbol;
     }
 
-    public function getOpen(): float
+    public function getCurrentPrice(): float
     {
-        return $this->open;
+        return $this->currentPrice;
+    }
+
+    public function getPriceChange(): float
+    {
+        return $this->priceChange;
+    }
+
+    public function getChangePercent(): float
+    {
+        return $this->changePercent;
     }
 
     public function getHigh(): float
@@ -85,19 +92,9 @@ class GlobalQuoteEntity
         return $this->low;
     }
 
-    public function getPrice(): float
+    public function getOpen(): float
     {
-        return $this->price;
-    }
-
-    public function getVolume(): int
-    {
-        return $this->volume;
-    }
-
-    public function getLatestTradingDay(): string
-    {
-        return $this->latestTradingDay;
+        return $this->open;
     }
 
     public function getPreviousClose(): float
@@ -105,14 +102,9 @@ class GlobalQuoteEntity
         return $this->previousClose;
     }
 
-    public function getPriceChange(): float
+    public function getLastUpdate(): \DateTimeImmutable
     {
-        return $this->priceChange;
-    }
-
-    public function getChangePercent(): string
-    {
-        return $this->changePercent;
+        return $this->lastUpdate;
     }
 
     public function getFetchedAt(): \DateTimeInterface

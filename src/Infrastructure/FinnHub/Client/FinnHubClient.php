@@ -22,7 +22,7 @@ final readonly class FinnHubClient implements FinnHubClientInterface
      * @throws FinnHubConnectionException
      */
     #[\Override]
-    public function doGlobalQuoteRequest(string $symbol): array
+    public function doQuoteRequest(string $symbol): array
     {
         try {
             $response = $this->client->request(
@@ -36,10 +36,7 @@ final readonly class FinnHubClient implements FinnHubClientInterface
                 ]
             );
 
-            $data = $response->toArray();
-            $data['symbol'] = strtoupper($symbol);
-
-            return $data;
+            return $response->toArray();
         } catch (\Throwable $e) {
             throw FinnHubConnectionException::create($e->getMessage(), $e);
         }

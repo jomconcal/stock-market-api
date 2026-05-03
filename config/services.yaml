@@ -30,6 +30,6 @@ services:
     app.finn_hub_client:
         alias: App\Infrastructure\FinnHub\Client\FinnHubClient
 
-    App\Application\FinnHub\Service\GlobalQuoteService:
+    App\Application\FinnHub\Service\QuoteService:
         arguments:
             $client: '@app.finn_hub_client'

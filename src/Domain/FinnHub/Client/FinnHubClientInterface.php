@@ -13,5 +13,5 @@ interface FinnHubClientInterface
      *
      * @throws FinnHubConnectionException
      */
-    public function doGlobalQuoteRequest(string $symbol): array;
+    public function doQuoteRequest(string $symbol): array;
 }

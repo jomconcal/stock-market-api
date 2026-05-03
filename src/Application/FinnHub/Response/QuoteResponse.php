@@ -5,7 +5,7 @@ namespace App\Application\FinnHub\Response;
 use App\Domain\FinnHub\DTO\QuoteDto;
 use App\Domain\StatusCode\HTTP_CODE;
 
-readonly class GlobalQuoteResponse
+readonly class QuoteResponse
 {
     private const string CACHE = 'CACHE';
     public const string SUCCESS = 'SUCCESS';
@@ -13,11 +13,11 @@ readonly class GlobalQuoteResponse
     public const string PROVIDER = 'FinnHub';
 
     private function __construct(
-        private string    $status,
+        private string $status,
         private ?QuoteDto $globalQuoteDto,
-        private ?string   $provider,
-        private ?string   $message,
-        private int       $code,
+        private ?string $provider,
+        private ?string $message,
+        private int $code,
     ) {
     }
 

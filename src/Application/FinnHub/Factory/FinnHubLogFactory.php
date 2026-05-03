@@ -39,11 +39,7 @@ final class FinnHubLogFactory
         array $rawResponse,
         bool $replaced = false,
     ): FinnHubLog {
-        if ($replaced) {
-            $status = FinnHubStatus::REPLACED;
-        } else {
-            $status = FinnHubStatus::SUCCESS;
-        }
+        $status = $replaced ? FinnHubStatus::REPLACED : FinnHubStatus::SUCCESS;
 
         return new FinnHubLog(
             $status,

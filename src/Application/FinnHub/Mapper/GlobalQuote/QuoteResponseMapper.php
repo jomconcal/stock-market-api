@@ -6,18 +6,15 @@ namespace App\Application\FinnHub\Mapper\GlobalQuote;
 
 use App\Application\Parser\ValueParser;
 use App\Domain\FinnHub\DTO\QuoteDto;
-use App\Domain\FinnHub\Exception\FinnHubLimitException;
+use App\Domain\FinnHub\VO\Symbol;
 
 final class QuoteResponseMapper
 {
     /**
      * @param array<array-key, mixed> $data
-     *
-     * @throws FinnHubLimitException
      */
-    public static function fromApi(array $data, string $symbol): QuoteDto
+    public static function fromApi(array $data, Symbol $symbol): QuoteDto
     {
-
         $currentPrice = ValueParser::toFloat($data['c']);
         $change = ValueParser::toFloat($data['d']);
         $changePercent = ValueParser::toFloat($data['dp']);
@@ -28,10 +25,8 @@ final class QuoteResponseMapper
         $timeStamp = ValueParser::toString($data['t']);
         $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
 
-        $rawResponse = json_encode($data);
-
-        if (false === $rawResponse) {
-            throw new \RuntimeException('Failed to encode raw response');
+        if (false === $lastUpdate) {
+            throw new \RuntimeException('Invalid date format');
         }
 
         return QuoteDto::create(

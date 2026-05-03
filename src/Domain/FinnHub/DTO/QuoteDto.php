@@ -4,38 +4,38 @@ declare(strict_types=1);
 
 namespace App\Domain\FinnHub\DTO;
 
+use App\Domain\FinnHub\VO\Symbol;
+
 readonly class QuoteDto
 {
     private function __construct(
-        private string             $symbol,
-        private float              $currentPrice,
-        private float              $change,
-        private float              $changePercent,
-        private float              $high,
-        private float              $low,
-        private float              $open,
-        private float              $previousClose,
+        private Symbol $symbol,
+        private float $currentPrice,
+        private float $priceChange,
+        private float $changePercent,
+        private float $high,
+        private float $low,
+        private float $open,
+        private float $previousClose,
         private \DateTimeImmutable $lastUpdate,
-    )
-    {
+    ) {
     }
 
     public static function create(
-        string             $symbol,
-        float              $price,
-        float              $change,
-        float              $changePercent,
-        float              $high,
-        float              $low,
-        float              $open,
-        float              $previousClose,
+        Symbol $symbol,
+        float $currentPrice,
+        float $priceChange,
+        float $changePercent,
+        float $high,
+        float $low,
+        float $open,
+        float $previousClose,
         \DateTimeImmutable $lastUpdate,
-    ): self
-    {
+    ): self {
         return new self(
             $symbol,
-            $price,
-            $change,
+            $currentPrice,
+            $priceChange,
             $changePercent,
             $high,
             $low,
@@ -51,9 +51,9 @@ readonly class QuoteDto
     public function toArray(): array
     {
         return [
-            'symbol' => $this->symbol,
+            'symbol' => $this->symbol->value(),
             'current_price' => $this->currentPrice,
-            'change' => $this->change,
+            'price_change' => $this->priceChange,
             'change_percent' => $this->changePercent,
             'high' => $this->high,
             'low' => $this->low,
@@ -63,7 +63,7 @@ readonly class QuoteDto
         ];
     }
 
-    public function getSymbol(): string
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -88,9 +88,9 @@ readonly class QuoteDto
         return $this->currentPrice;
     }
 
-    public function getChange(): float
+    public function getPriceChange(): float
     {
-        return $this->change;
+        return $this->priceChange;
     }
 
     public function getChangePercent(): float

@@ -1,65 +1,65 @@
 ### Apple Inc.
-GET http://localhost:8000/stocks-market-api/global-quote/AAPL
+GET http://localhost:8000/stocks-market-api/quote/AAPL
 
 ### Microsoft
-GET http://localhost:8000/stocks-market-api/global-quote/MSFT
+GET http://localhost:8000/stocks-market-api/quote/MSFT
 
 ### Alphabet Inc.
-GET http://localhost:8000/stocks-market-api/global-quote/GOOGL
+GET http://localhost:8000/stocks-market-api/quote/GOOG
 
 ### Amazon
-GET http://localhost:8000/stocks-market-api/global-quote/AMZN
+GET http://localhost:8000/stocks-market-api/quote/AMZN
 
 ### NVIDIA
-GET http://localhost:8000/stocks-market-api/global-quote/NVDA
+GET http://localhost:8000/stocks-market-api/quote/NVDA
 
 ### Meta Platforms
-GET http://localhost:8000/stocks-market-api/global-quote/META
+GET http://localhost:8000/stocks-market-api/quote/META
 
 ### Tesla
-GET http://localhost:8000/stocks-market-api/global-quote/TSLA
+GET http://localhost:8000/stocks-market-api/quote/TSLA
 
 ### Toyota
-GET http://localhost:8000/stocks-market-api/global-quote/TM
+GET http://localhost:8000/stocks-market-api/quote/TM
 
 ### ExxonMobil
-GET http://localhost:8000/stocks-market-api/global-quote/XOM
+GET http://localhost:8000/stocks-market-api/quote/XOM
 
 ### Shell plc
-GET http://localhost:8000/stocks-market-api/global-quote/SHEL
+GET http://localhost:8000/stocks-market-api/quote/SHEL
 
 ### JPMorgan Chase
-GET http://localhost:8000/stocks-market-api/global-quote/JPM
+GET http://localhost:8000/stocks-market-api/quote/JPM
 
 ### Goldman Sachs
-GET http://localhost:8000/stocks-market-api/global-quote/GS
+GET http://localhost:8000/stocks-market-api/quote/GS
 
 ### Visa
-GET http://localhost:8000/stocks-market-api/global-quote/V
+GET http://localhost:8000/stocks-market-api/quote/V
 
 ### Coca-Cola
-GET http://localhost:8000/stocks-market-api/global-quote/KO
+GET http://localhost:8000/stocks-market-api/quote/KO
 
 ### PepsiCo
-GET http://localhost:8000/stocks-market-api/global-quote/PEP
+GET http://localhost:8000/stocks-market-api/quote/PEP
 
 ### Walmart
-GET http://localhost:8000/stocks-market-api/global-quote/WMT
+GET http://localhost:8000/stocks-market-api/quote/WMT
 
 ### Nike
-GET http://localhost:8000/stocks-market-api/global-quote/NKE
+GET http://localhost:8000/stocks-market-api/quote/NKE
 
 
 ### 🇪🇸 España
 
 ### Inditex
-GET http://localhost:8000/stocks-market-api/global-quote/ITX.MC
+GET http://localhost:8000/stocks-market-api/quote/ITX.MC
 
 ### Banco Santander
-GET http://localhost:8000/stocks-market-api/global-quote/SAN.MC
+GET http://localhost:8000/stocks-market-api/quote/SAN.MC
 
 ### BBVA
-GET http://localhost:8000/stocks-market-api/global-quote/BBVA.MC
+GET http://localhost:8000/stocks-market-api/quote/BBVA.MC
 
 ### Iberdrola
-GET http://localhost:8000/stocks-market-api/global-quote/IBE.MC
+GET http://localhost:8000/stocks-market-api/quote/IBE.MC
