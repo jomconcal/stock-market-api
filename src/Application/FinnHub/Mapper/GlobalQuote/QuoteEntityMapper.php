@@ -13,7 +13,7 @@ final class QuoteEntityMapper
         QuoteDto $quoteDto,
     ): QuoteEntity {
         return new QuoteEntity(
-            $quoteDto->getSymbol()->value(),
+            $quoteDto->getTicker()->getSymbol(),
             $quoteDto->getCurrentPrice(),
             $quoteDto->getPriceChange(),
             $quoteDto->getChangePercent(),

@@ -6,14 +6,14 @@ namespace App\Application\FinnHub\Mapper\GlobalQuote;
 
 use App\Domain\FinnHub\DTO\QuoteDto;
 use App\Domain\FinnHub\Entity\QuoteEntity;
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 
 final class QuoteDtoMapper
 {
     public static function fromEntity(
         QuoteEntity $globalQuoteEntity,
     ): QuoteDto {
-        $symbol = Symbol::create($globalQuoteEntity->getSymbol());
+        $symbol = Ticker::create($globalQuoteEntity->getSymbol());
         $currenPrice = $globalQuoteEntity->getCurrentPrice();
         $priceChange = $globalQuoteEntity->getPriceChange();
         $changePercent = $globalQuoteEntity->getChangePercent();

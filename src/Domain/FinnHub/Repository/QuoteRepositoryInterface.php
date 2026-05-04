@@ -15,4 +15,6 @@ interface QuoteRepositoryInterface
         \DateTimeImmutable $lastUpdate): ?QuoteEntity;
 
     public function findWithinLast15Minutes(string $symbol): ?QuoteEntity;
+
+    public function updateQuote(QuoteEntity $existingQuoteEntity): void;
 }

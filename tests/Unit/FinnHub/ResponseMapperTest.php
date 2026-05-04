@@ -4,7 +4,7 @@ namespace App\Tests\Unit\FinnHub;
 
 use App\Application\FinnHub\Mapper\GlobalQuote\QuoteResponseMapper;
 use App\Application\Parser\ValueParser;
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertSame;
@@ -13,12 +13,12 @@ class ResponseMapperTest extends TestCase
 {
     public function testMapResponseToDTO(): void
     {
-        $symbol = Symbol::create('AAPL');
+        $ticker = Ticker::create('AAPL');
         $response = $this->createResponse();
-        $quoteDTO = QuoteResponseMapper::fromApi($response, $symbol);
+        $quoteDTO = QuoteResponseMapper::fromApi($response, $ticker);
 
         $realResponse = $quoteDTO->toArray();
-        $expectedResponse = $this->expectedResponse($symbol->value());
+        $expectedResponse = $this->expectedResponse($ticker);
 
         assertSame($expectedResponse, $realResponse);
     }
@@ -30,7 +30,7 @@ class ResponseMapperTest extends TestCase
         return json_decode($json, true);
     }
 
-    private function expectedResponse(string $symbol): array
+    private function expectedResponse(Ticker $ticker): array
     {
         $data = $this->createResponse();
 
@@ -45,7 +45,8 @@ class ResponseMapperTest extends TestCase
         $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
 
         return [
-            'symbol' => $symbol,
+            'company_name' => $ticker->getCompanyName(),
+            'symbol' => $ticker->getSymbol(),
             'current_price' => $currentPrice,
             'price_change' => $priceChange,
             'change_percent' => $changePercent,

@@ -8,7 +8,7 @@ use App\Domain\FinnHub\Entity\FinnHubLog;
 use App\Domain\FinnHub\Enum\FinnHubFunction;
 use App\Domain\FinnHub\Enum\FinnHubProvider;
 use App\Domain\FinnHub\Enum\FinnHubStatus;
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 
 final class FinnHubLogFactory
 {
@@ -16,13 +16,13 @@ final class FinnHubLogFactory
      * @param array<array-key, mixed> $rawResponse
      */
     public static function fromCache(
-        Symbol $symbol,
+        Ticker $symbol,
         FinnHubFunction $function,
         array $rawResponse,
     ): FinnHubLog {
         return new FinnHubLog(
             FinnHubStatus::SUCCESS,
-            $symbol->value(),
+            $symbol->getSymbol(),
             $function,
             FinnHubProvider::CACHE,
             null,
@@ -34,7 +34,7 @@ final class FinnHubLogFactory
      * @param array<array-key, mixed> $rawResponse
      */
     public static function fromProvider(
-        Symbol $symbol,
+        Ticker $symbol,
         FinnHubFunction $function,
         array $rawResponse,
         bool $replaced = false,
@@ -43,7 +43,7 @@ final class FinnHubLogFactory
 
         return new FinnHubLog(
             $status,
-            $symbol->value(),
+            $symbol->getSymbol(),
             $function,
             FinnHubProvider::FINN_HUB,
             null,

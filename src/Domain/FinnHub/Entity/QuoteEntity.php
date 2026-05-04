@@ -23,7 +23,7 @@ class QuoteEntity
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeInterface $fetchedAt;
 
     public function __construct(
@@ -54,7 +54,7 @@ class QuoteEntity
         #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
         private \DateTimeImmutable $lastUpdate, // t
     ) {
-        $this->fetchedAt = new \DateTime();
+        $this->fetchedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?Uuid
