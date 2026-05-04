@@ -6,14 +6,14 @@ namespace App\Application\FinnHub\Mapper\GlobalQuote;
 
 use App\Application\Parser\ValueParser;
 use App\Domain\FinnHub\DTO\QuoteDto;
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 
 final class QuoteResponseMapper
 {
     /**
      * @param array<array-key, mixed> $data
      */
-    public static function fromApi(array $data, Symbol $symbol): QuoteDto
+    public static function fromApi(array $data, Ticker $ticker): QuoteDto
     {
         $currentPrice = ValueParser::toFloat($data['c']);
         $change = ValueParser::toFloat($data['d']);
@@ -26,11 +26,11 @@ final class QuoteResponseMapper
         $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
 
         if (false === $lastUpdate) {
-            throw new \RuntimeException('Invalid date format');
+            throw new \RuntimeException('Invalid date format: '.$timeStamp);
         }
 
         return QuoteDto::create(
-            $symbol,
+            $ticker,
             $currentPrice,
             $change,
             $changePercent,

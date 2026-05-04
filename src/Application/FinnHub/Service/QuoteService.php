@@ -8,9 +8,11 @@ use App\Application\FinnHub\Mapper\GlobalQuote\QuoteDtoMapper;
 use App\Application\FinnHub\Mapper\GlobalQuote\QuoteEntityMapper;
 use App\Application\FinnHub\Mapper\GlobalQuote\QuoteResponseMapper;
 use App\Application\FinnHub\Response\QuoteResponse;
+use App\Application\Parser\ValueParser;
 use App\Domain\FinnHub\Client\FinnHubClientInterface;
+use App\Domain\FinnHub\Entity\QuoteEntity;
 use App\Domain\FinnHub\Repository\QuoteRepositoryInterface;
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 
 readonly class QuoteService
 {
@@ -24,26 +26,46 @@ readonly class QuoteService
 
     public function execute(string $symbol): QuoteResponse
     {
-        $symbolVO = Symbol::create($symbol);
+        $ticker = Ticker::create($symbol);
 
-        $existingQuote = $this->globalQuoteRepository->findWithinLast15Minutes($symbol);
+        $recentQuoteEntity = $this->globalQuoteRepository->findWithinLast15Minutes($symbol);
 
-        if ($existingQuote instanceof \App\Domain\FinnHub\Entity\QuoteEntity) {
-            $quoteEntity = QuoteDtoMapper::fromEntity($existingQuote);
+        if ($recentQuoteEntity instanceof QuoteEntity) {
+            $quoteDto = QuoteDtoMapper::fromEntity($recentQuoteEntity);
 
-            return QuoteResponse::createFromCache($quoteEntity);
+            return QuoteResponse::createFromCache($quoteDto);
         }
 
         $rawResponse = $this->client->doQuoteRequest($symbol);
 
-        // test sobre si aunque pase el threshold de 15 minutos guarda una que ya exista porque la bolsa está cerrada y la última se guardó hace más días.
+        $existingQuoteEntity = $this->getExistingPreviousQuote($rawResponse, $symbol);
 
-        $quoteDto = QuoteResponseMapper::fromApi($rawResponse, $symbolVO);
+        if ($existingQuoteEntity instanceof QuoteEntity) {
+            $this->globalQuoteRepository->updateQuote($existingQuoteEntity);
+
+            return QuoteResponse::createFromUpdate(QuoteDtoMapper::fromEntity($existingQuoteEntity));
+        }
+
+        $quoteDto = QuoteResponseMapper::fromApi($rawResponse, $ticker);
 
         $quoteEntity = QuoteEntityMapper::fromDto($quoteDto);
 
         $this->globalQuoteRepository->save($quoteEntity);
 
         return QuoteResponse::createFromProvider($quoteDto);
+    }
+
+    /**
+     * @param array<array-key,mixed> $rawResponse
+     */
+    public function getExistingPreviousQuote(array $rawResponse, string $symbol): ?QuoteEntity
+    {
+        $timeStamp = ValueParser::toString($rawResponse['t']);
+        $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
+        if (false === $lastUpdate) {
+            throw new \RuntimeException('Invalid date format: '.$timeStamp);
+        }
+
+        return $this->globalQuoteRepository->findBySymbolAndLastUpdate($symbol, $lastUpdate);
     }
 }

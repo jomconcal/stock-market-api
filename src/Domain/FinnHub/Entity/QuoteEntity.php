@@ -23,12 +23,15 @@ class QuoteEntity
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeInterface $fetchedAt;
 
     public function __construct(
         #[ORM\Column(length: 10)]
         private string $symbol,
+
+        #[ORM\Column(length: 30)]
+        private string $companyName,
 
         #[ORM\Column(type: Types::FLOAT)]
         private float $currentPrice,   // c
@@ -54,7 +57,7 @@ class QuoteEntity
         #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
         private \DateTimeImmutable $lastUpdate, // t
     ) {
-        $this->fetchedAt = new \DateTime();
+        $this->fetchedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?Uuid
@@ -65,6 +68,11 @@ class QuoteEntity
     public function getSymbol(): string
     {
         return $this->symbol;
+    }
+
+    public function getCompanyName(): string
+    {
+        return $this->companyName;
     }
 
     public function getCurrentPrice(): float

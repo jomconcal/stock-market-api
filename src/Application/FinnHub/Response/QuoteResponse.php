@@ -8,9 +8,10 @@ use App\Domain\StatusCode\HTTP_CODE;
 readonly class QuoteResponse
 {
     private const string CACHE = 'CACHE';
-    public const string SUCCESS = 'SUCCESS';
-    public const string ERROR = 'ERROR';
-    public const string PROVIDER = 'FinnHub';
+    private const string SUCCESS = 'SUCCESS';
+    private const string ERROR = 'ERROR';
+    private const string PROVIDER = 'FinnHub';
+    private const string UPDATE = 'UPDATE';
 
     private function __construct(
         private string $status,
@@ -55,6 +56,17 @@ readonly class QuoteResponse
             null,
             $message,
             $code
+        );
+    }
+
+    public static function createFromUpdate(QuoteDto $fromEntity): self
+    {
+        return new self(
+            self::UPDATE,
+            $fromEntity,
+            self::PROVIDER,
+            null,
+            HTTP_CODE::OK
         );
     }
 

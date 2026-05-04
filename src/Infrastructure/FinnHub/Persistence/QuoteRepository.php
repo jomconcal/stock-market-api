@@ -40,15 +40,23 @@ class QuoteRepository extends ServiceEntityRepository implements QuoteRepository
 
         $qb = $this->createQueryBuilder('q');
         $qb->where('q.symbol = :symbol')
-            ->andWhere('q.lastUpdate >= :threshold')
+            ->andWhere('q.fetchedAt >= :threshold')
             ->setParameter('symbol', $symbol)
             ->setParameter('threshold', $threshold)
-            ->orderBy('q.lastUpdate', 'DESC')
+            ->orderBy('q.fetchedAt', 'DESC')
             ->setMaxResults(1);
         $query = $qb->getQuery();
         /** @var QuoteEntity|null $quoteEntity */
         $quoteEntity = $query->getOneOrNullResult();
 
         return $quoteEntity;
+    }
+
+    #[\Override]
+    public function updateQuote(QuoteEntity $existingQuoteEntity): void
+    {
+        $fetchedAt = new \DateTimeImmutable();
+        $existingQuoteEntity->setFetchedAt($fetchedAt);
+        $this->save($existingQuoteEntity);
     }
 }

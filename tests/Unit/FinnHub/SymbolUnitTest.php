@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\FinnHub;
 
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -13,9 +13,9 @@ class SymbolUnitTest extends TestCase
     #[DataProvider('validSymbolsProvider')]
     public function testItCreatesValidSymbols(string $input): void
     {
-        $symbol = Symbol::create($input);
+        $symbol = Ticker::create($input);
 
-        $this->assertSame(trim(strtoupper($input)), $symbol->value());
+        $this->assertSame(trim(strtoupper($input)), $symbol->getSymbol());
     }
 
     #[DataProvider('invalidSymbolsProvider')]
@@ -23,7 +23,7 @@ class SymbolUnitTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        Symbol::create($input);
+        Ticker::create($input);
     }
 
     public static function validSymbolsProvider(): array

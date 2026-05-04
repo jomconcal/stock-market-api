@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\FinnHub\DTO;
 
-use App\Domain\FinnHub\VO\Symbol;
+use App\Domain\FinnHub\VO\Ticker;
 
 readonly class QuoteDto
 {
     private function __construct(
-        private Symbol $symbol,
+        private Ticker $ticker,
         private float $currentPrice,
         private float $priceChange,
         private float $changePercent,
@@ -22,7 +22,7 @@ readonly class QuoteDto
     }
 
     public static function create(
-        Symbol $symbol,
+        Ticker $ticker,
         float $currentPrice,
         float $priceChange,
         float $changePercent,
@@ -33,7 +33,7 @@ readonly class QuoteDto
         \DateTimeImmutable $lastUpdate,
     ): self {
         return new self(
-            $symbol,
+            $ticker,
             $currentPrice,
             $priceChange,
             $changePercent,
@@ -51,7 +51,8 @@ readonly class QuoteDto
     public function toArray(): array
     {
         return [
-            'symbol' => $this->symbol->value(),
+            'symbol' => $this->ticker->getSymbol(),
+            'company_name' => $this->ticker->getCompanyName(),
             'current_price' => $this->currentPrice,
             'price_change' => $this->priceChange,
             'change_percent' => $this->changePercent,
@@ -63,9 +64,9 @@ readonly class QuoteDto
         ];
     }
 
-    public function getSymbol(): Symbol
+    public function getTicker(): Ticker
     {
-        return $this->symbol;
+        return $this->ticker;
     }
 
     public function getOpen(): float
