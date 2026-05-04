@@ -26,7 +26,7 @@ readonly class QuoteService
 
     public function execute(string $symbol): QuoteResponse
     {
-        $symbolVO = Ticker::create($symbol);
+        $ticker = Ticker::create($symbol);
 
         $recentQuoteEntity = $this->globalQuoteRepository->findWithinLast15Minutes($symbol);
 
@@ -46,7 +46,7 @@ readonly class QuoteService
             return QuoteResponse::createFromUpdate(QuoteDtoMapper::fromEntity($existingQuoteEntity));
         }
 
-        $quoteDto = QuoteResponseMapper::fromApi($rawResponse, $symbolVO);
+        $quoteDto = QuoteResponseMapper::fromApi($rawResponse, $ticker);
 
         $quoteEntity = QuoteEntityMapper::fromDto($quoteDto);
 

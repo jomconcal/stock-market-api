@@ -45,8 +45,8 @@ class ResponseMapperTest extends TestCase
         $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
 
         return [
-            'company_name' => $ticker->getCompanyName(),
             'symbol' => $ticker->getSymbol(),
+            'company_name' => $ticker->getCompanyName(),
             'current_price' => $currentPrice,
             'price_change' => $priceChange,
             'change_percent' => $changePercent,

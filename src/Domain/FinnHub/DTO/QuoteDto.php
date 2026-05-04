@@ -22,7 +22,7 @@ readonly class QuoteDto
     }
 
     public static function create(
-        Ticker $symbol,
+        Ticker $ticker,
         float $currentPrice,
         float $priceChange,
         float $changePercent,
@@ -33,7 +33,7 @@ readonly class QuoteDto
         \DateTimeImmutable $lastUpdate,
     ): self {
         return new self(
-            $symbol,
+            $ticker,
             $currentPrice,
             $priceChange,
             $changePercent,
@@ -51,8 +51,8 @@ readonly class QuoteDto
     public function toArray(): array
     {
         return [
-            'company_name' => $this->ticker->getCompanyName(),
             'symbol' => $this->ticker->getSymbol(),
+            'company_name' => $this->ticker->getCompanyName(),
             'current_price' => $this->currentPrice,
             'price_change' => $this->priceChange,
             'change_percent' => $this->changePercent,

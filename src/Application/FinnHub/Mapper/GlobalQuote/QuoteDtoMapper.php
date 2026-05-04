@@ -13,7 +13,7 @@ final class QuoteDtoMapper
     public static function fromEntity(
         QuoteEntity $globalQuoteEntity,
     ): QuoteDto {
-        $symbol = Ticker::create($globalQuoteEntity->getSymbol());
+        $ticker = Ticker::create($globalQuoteEntity->getSymbol());
         $currenPrice = $globalQuoteEntity->getCurrentPrice();
         $priceChange = $globalQuoteEntity->getPriceChange();
         $changePercent = $globalQuoteEntity->getChangePercent();
@@ -24,7 +24,7 @@ final class QuoteDtoMapper
         $lastUpdate = $globalQuoteEntity->getLastUpdate();
 
         return QuoteDto::create(
-            symbol: $symbol,
+            ticker: $ticker,
             currentPrice: $currenPrice,
             priceChange: $priceChange,
             changePercent: $changePercent,

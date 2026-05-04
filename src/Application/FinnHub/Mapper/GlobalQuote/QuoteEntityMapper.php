@@ -14,6 +14,7 @@ final class QuoteEntityMapper
     ): QuoteEntity {
         return new QuoteEntity(
             $quoteDto->getTicker()->getSymbol(),
+            $quoteDto->getTicker()->getCompanyName(),
             $quoteDto->getCurrentPrice(),
             $quoteDto->getPriceChange(),
             $quoteDto->getChangePercent(),

@@ -16,13 +16,13 @@ final class FinnHubLogFactory
      * @param array<array-key, mixed> $rawResponse
      */
     public static function fromCache(
-        Ticker $symbol,
+        Ticker $ticker,
         FinnHubFunction $function,
         array $rawResponse,
     ): FinnHubLog {
         return new FinnHubLog(
             FinnHubStatus::SUCCESS,
-            $symbol->getSymbol(),
+            $ticker->getSymbol(),
             $function,
             FinnHubProvider::CACHE,
             null,
@@ -34,7 +34,7 @@ final class FinnHubLogFactory
      * @param array<array-key, mixed> $rawResponse
      */
     public static function fromProvider(
-        Ticker $symbol,
+        Ticker $ticker,
         FinnHubFunction $function,
         array $rawResponse,
         bool $replaced = false,
@@ -43,7 +43,7 @@ final class FinnHubLogFactory
 
         return new FinnHubLog(
             $status,
-            $symbol->getSymbol(),
+            $ticker->getSymbol(),
             $function,
             FinnHubProvider::FINN_HUB,
             null,

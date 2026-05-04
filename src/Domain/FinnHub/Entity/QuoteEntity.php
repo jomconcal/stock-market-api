@@ -30,6 +30,9 @@ class QuoteEntity
         #[ORM\Column(length: 10)]
         private string $symbol,
 
+        #[ORM\Column(length: 30)]
+        private string $companyName,
+
         #[ORM\Column(type: Types::FLOAT)]
         private float $currentPrice,   // c
 
@@ -65,6 +68,11 @@ class QuoteEntity
     public function getSymbol(): string
     {
         return $this->symbol;
+    }
+
+    public function getCompanyName(): string
+    {
+        return $this->companyName;
     }
 
     public function getCurrentPrice(): float
