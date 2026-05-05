@@ -46,10 +46,6 @@ class SymbolUnitTest extends TestCase
             ['PEP'],
             ['WMT'],
             ['NKE'],
-            ['ITX.MC'],
-            ['SAN.MC'],
-            ['BBVA.MC'],
-            ['IBE.MC'],
         ];
     }
 

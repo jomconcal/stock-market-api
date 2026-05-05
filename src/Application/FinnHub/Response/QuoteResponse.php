@@ -15,7 +15,7 @@ readonly class QuoteResponse
 
     private function __construct(
         private string $status,
-        private ?QuoteDto $globalQuoteDto,
+        private ?QuoteDto $quoteDto,
         private ?string $provider,
         private ?string $message,
         private int $code,
@@ -78,7 +78,7 @@ readonly class QuoteResponse
         return [
             'code' => $this->code,
             'status' => $this->status,
-            'globalQuote' => $this->globalQuoteDto?->toArray(),
+            'quote' => $this->quoteDto?->toArray(),
             'provider' => $this->provider,
         ];
     }
