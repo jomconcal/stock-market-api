@@ -48,18 +48,3 @@ GET http://localhost:8000/stocks-market-api/quote/WMT
 
 ### Nike
 GET http://localhost:8000/stocks-market-api/quote/NKE
-
-
-### 🇪🇸 España
-
-### Inditex
-GET http://localhost:8000/stocks-market-api/quote/ITX.MC
-
-### Banco Santander
-GET http://localhost:8000/stocks-market-api/quote/SAN.MC
-
-### BBVA
-GET http://localhost:8000/stocks-market-api/quote/BBVA.MC
-
-### Iberdrola
-GET http://localhost:8000/stocks-market-api/quote/IBE.MC

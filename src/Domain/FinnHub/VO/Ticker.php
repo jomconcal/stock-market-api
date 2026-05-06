@@ -25,10 +25,6 @@ final class Ticker
         'PEP' => 'PepsiCo Inc.',
         'WMT' => 'Walmart Inc.',
         'NKE' => 'Nike Inc.',
-        'ITX.MC' => 'Inditex',
-        'SAN.MC' => 'Banco Santander',
-        'BBVA.MC' => 'BBVA',
-        'IBE.MC' => 'Iberdrola',
     ];
 
     private function __construct(
