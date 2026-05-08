@@ -27,7 +27,7 @@ final class QuoteController extends AbstractController
                 [
                     'status' => 'SUCCESS',
                     'code' => HTTP_CODE::SUCCESS,
-                    'data' => $quoteDto->toArray(),
+                    'quote' => $quoteDto->toArray(),
                 ]
             );
         } catch (\Throwable $e) {
@@ -35,7 +35,7 @@ final class QuoteController extends AbstractController
                 [
                     'status' => 'ERROR',
                     'code' => HTTP_CODE::INTERNAL_SERVER_ERROR,
-                    'data' => [],
+                    'quote' => [],
                     'message' => $e->getMessage(),
                 ]
             );
