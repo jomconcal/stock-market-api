@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\FinnHub\Client;
 
 use App\Domain\FinnHub\Client\FinnHubClientInterface;
+use App\Domain\FinnHub\Entity\QuoteEntity;
 use App\Domain\FinnHub\Exception\FinnHubConnectionException;
+use App\Domain\FinnHub\VO\Ticker;
+use App\Infrastructure\Parser\ValueParser;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class FinnHubClient implements FinnHubClientInterface
@@ -14,6 +17,40 @@ final readonly class FinnHubClient implements FinnHubClientInterface
         private HttpClientInterface $client,
         private string $apiKey,
     ) {
+    }
+
+    #[\Override]
+    public function fetchQuote(Ticker $ticker): QuoteEntity
+    {
+        $data = $this->doQuoteRequest($ticker->getSymbol());
+
+        $currentPrice = ValueParser::toFloat($data['c']);
+        $change = ValueParser::toFloat($data['d']);
+        $changePercent = ValueParser::toFloat($data['dp']);
+        $high = ValueParser::toFloat($data['h']);
+        $low = ValueParser::toFloat($data['l']);
+        $open = ValueParser::toFloat($data['o']);
+        $previousClose = ValueParser::toFloat($data['pc']);
+        $timeStamp = ValueParser::toString($data['t']);
+        $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
+
+        // Log aquí de raw response
+        if (false === $lastUpdate) {
+            throw new \RuntimeException('Invalid date format: '.$timeStamp);
+        }
+
+        return new QuoteEntity(
+            symbol: $ticker->getSymbol(),
+            companyName: $ticker->getCompanyName(),
+            currentPrice: $currentPrice,
+            priceChange: $change,
+            changePercent: $changePercent,
+            high: $high,
+            low: $low,
+            open: $open,
+            previousClose: $previousClose,
+            lastUpdate: $lastUpdate,
+        );
     }
 
     /**
@@ -38,7 +75,7 @@ final readonly class FinnHubClient implements FinnHubClientInterface
 
             return $response->toArray();
         } catch (\Throwable $e) {
-            throw FinnHubConnectionException::create($e->getMessage(), $e);
+            throw FinnHubConnectionException::create($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
 }

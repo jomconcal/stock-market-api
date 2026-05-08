@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\StatusCode;
+namespace App\Presentation\StatusCode;
 
 class HTTP_CODE
 {
-    public const int OK = 200;
+    public const int SUCCESS = 200;
     public const int NOT_FOUND = 404;
     public const int INTERNAL_SERVER_ERROR = 500;
     public const int BAD_REQUEST = 400;
