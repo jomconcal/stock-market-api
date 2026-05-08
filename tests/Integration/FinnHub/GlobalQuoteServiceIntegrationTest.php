@@ -2,12 +2,12 @@
 
 namespace App\Tests\Integration\FinnHub;
 
-use App\Application\FinnHub\Mapper\GlobalQuote\QuoteEntityMapper;
-use App\Application\FinnHub\Mapper\GlobalQuote\QuoteResponseMapper;
-use App\Application\FinnHub\Response\QuoteResponse;
+use App\Application\FinnHub\DTO\QuoteDto;
 use App\Application\FinnHub\Service\QuoteService;
+use App\Domain\FinnHub\Entity\QuoteEntity;
 use App\Domain\FinnHub\VO\Ticker;
 use App\Infrastructure\FinnHub\Persistence\QuoteRepository;
+use App\Infrastructure\Parser\ValueParser;
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -52,50 +52,75 @@ class GlobalQuoteServiceIntegrationTest extends KernelTestCase
 
     public function testRetrieveFromCache(): void
     {
-        $symbol = Ticker::create('AAPL');
+        $ticker = Ticker::create('AAPL');
 
         $json = file_get_contents(__DIR__.'/Fixtures/quotes_data.json');
         $data = json_decode($json, true);
 
-        $quoteDto = QuoteResponseMapper::fromApi($data, $symbol);
-        $quoteEntity = QuoteEntityMapper::fromDto($quoteDto);
+        $quoteEntity = $this->getQuoteFromData($ticker, $data);
+
         $fetchedAt = new \DateTimeImmutable()->modify('-14 minutes');
         $quoteEntity->setFetchedAt($fetchedAt);
 
         $this->quoteRepository->save($quoteEntity);
 
-        $quoteResponse = $this->quoteService->execute($symbol->getSymbol());
+        $quoteResponse = $this->quoteService->execute($ticker->getSymbol());
 
-        $expectedQuoteResponse = QuoteResponse::createFromCache($quoteDto);
+        $expectedQuoteDto = QuoteDto::createFromCache($quoteEntity);
 
-        assertSame($expectedQuoteResponse->getSuccess(), $quoteResponse->getSuccess());
+        assertSame($expectedQuoteDto->source, $quoteResponse->source);
     }
 
     public function testUpdateEntityWhenRepeated(): void
     {
-        $symbol = Ticker::create('AAPL');
+        $ticker = Ticker::create('AAPL');
 
         $json = file_get_contents(__DIR__.'/Fixtures/quotes_data.json');
         $data = json_decode($json, true);
 
-        $quoteDto = QuoteResponseMapper::fromApi($data, $symbol);
-        $quoteEntity = QuoteEntityMapper::fromDto($quoteDto);
+        $quoteEntity = $this->getQuoteFromData($ticker, $data);
         $fetchedAt = new \DateTimeImmutable()->modify('-16 minutes');
         $quoteEntity->setFetchedAt($fetchedAt);
 
         $this->quoteRepository->save($quoteEntity);
 
-        $quoteResponse = $this->quoteService->execute($symbol->getSymbol());
+        $quoteDto = $this->quoteService->execute($ticker->getSymbol());
 
-        $expectedQuoteResponse = QuoteResponse::createFromUpdate($quoteDto);
+        $expectedQuoteDto = QuoteDto::createFromUpdate($quoteEntity);
 
         $updatedQuoteEntity = $this->quoteRepository->findOneBy([
-            'symbol' => $symbol->getSymbol(),
+            'symbol' => $ticker->getSymbol(),
         ]);
 
         assertNotNull($updatedQuoteEntity);
         self::assertTrue($fetchedAt < $updatedQuoteEntity->getFetchedAt());
 
-        assertSame($expectedQuoteResponse->getSuccess(), $quoteResponse->getSuccess());
+        assertSame($expectedQuoteDto->source, $quoteDto->source);
+    }
+
+    private function getQuoteFromData(Ticker $ticker, array $data): QuoteEntity
+    {
+        $currentPrice = ValueParser::toFloat($data['c']);
+        $change = ValueParser::toFloat($data['d']);
+        $changePercent = ValueParser::toFloat($data['dp']);
+        $high = ValueParser::toFloat($data['h']);
+        $low = ValueParser::toFloat($data['l']);
+        $open = ValueParser::toFloat($data['o']);
+        $previousClose = ValueParser::toFloat($data['pc']);
+        $timeStamp = ValueParser::toString($data['t']);
+        $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
+
+        return new QuoteEntity(
+            symbol: $ticker->getSymbol(),
+            companyName: $ticker->getCompanyName(),
+            currentPrice: $currentPrice,
+            priceChange: $change,
+            changePercent: $changePercent,
+            high: $high,
+            low: $low,
+            open: $open,
+            previousClose: $previousClose,
+            lastUpdate: $lastUpdate,
+        );
     }
 }

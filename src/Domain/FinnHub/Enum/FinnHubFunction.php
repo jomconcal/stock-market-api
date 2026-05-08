@@ -6,5 +6,5 @@ namespace App\Domain\FinnHub\Enum;
 
 enum FinnHubFunction: string
 {
-    case GLOBAL_QUOTE = 'GLOBAL_QUOTE';
+    case QUOTE = 'QUOTE';
 }
