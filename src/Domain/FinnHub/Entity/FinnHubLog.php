@@ -34,13 +34,11 @@ class FinnHubLog
         #[ORM\Column(enumType: FinnHubProvider::class)]
         private FinnHubProvider $provider,
 
-        #[ORM\Column(length: 255, nullable: true)]
-        private ?string $message,
         /**
          * @var array<array-key, mixed>
          */
         #[ORM\Column(type: Types::JSON)]
-        private array $rawResponse,
+        private array $response,
 
         #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
         private \DateTimeInterface $fetchedAt = new \DateTimeImmutable(),
@@ -72,17 +70,12 @@ class FinnHubLog
         return $this->provider;
     }
 
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
     /**
      * @return array<array-key,mixed>
      */
-    public function getRawResponse(): array
+    public function getResponse(): array
     {
-        return $this->rawResponse;
+        return $this->response;
     }
 
     public function getFetchedAt(): \DateTimeInterface
