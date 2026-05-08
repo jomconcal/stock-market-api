@@ -20,13 +20,25 @@ final class QuoteController extends AbstractController
     #[Route('/stocks-market-api/quote/{symbol}', methods: ['GET'])]
     public function getQuote(string $symbol): JsonResponse
     {
-        $quoteDto = $this->globalQuoteService->execute($symbol);
+        try {
+            $quoteDto = $this->globalQuoteService->execute($symbol);
 
-        return $this->json(
-            [
-                'status' => HTTP_CODE::SUCCESS,
-                'data' => $quoteDto->toArray(),
-            ]
-        );
+            return $this->json(
+                [
+                    'status' => 'SUCCESS',
+                    'code' => HTTP_CODE::SUCCESS,
+                    'data' => $quoteDto->toArray(),
+                ]
+            );
+        } catch (\Throwable $e) {
+            return $this->json(
+                [
+                    'status' => 'ERROR',
+                    'code' => HTTP_CODE::INTERNAL_SERVER_ERROR,
+                    'data' => [],
+                    'message' => $e->getMessage(),
+                ]
+            );
+        }
     }
 }

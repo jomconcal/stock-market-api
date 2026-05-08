@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace App\Infrastructure\FinnHub\Client;
 
 use App\Domain\FinnHub\Client\FinnHubClientInterface;
+use App\Domain\FinnHub\Entity\FinnHubLog;
 use App\Domain\FinnHub\Entity\QuoteEntity;
+use App\Domain\FinnHub\Enum\FinnHubFunction;
+use App\Domain\FinnHub\Enum\FinnHubProvider;
+use App\Domain\FinnHub\Enum\FinnHubStatus;
 use App\Domain\FinnHub\Exception\FinnHubConnectionException;
+use App\Domain\FinnHub\Repository\FinnHubLogRepositoryInterface;
 use App\Domain\FinnHub\VO\Ticker;
 use App\Infrastructure\Parser\ValueParser;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,6 +21,7 @@ final readonly class FinnHubClient implements FinnHubClientInterface
     public function __construct(
         private HttpClientInterface $client,
         private string $apiKey,
+        private FinnHubLogRepositoryInterface $logRepository,
     ) {
     }
 
@@ -34,7 +40,6 @@ final readonly class FinnHubClient implements FinnHubClientInterface
         $timeStamp = ValueParser::toString($data['t']);
         $lastUpdate = \DateTimeImmutable::createFromFormat('U', $timeStamp);
 
-        // Log aquí de raw response
         if (false === $lastUpdate) {
             throw new \RuntimeException('Invalid date format: '.$timeStamp);
         }
@@ -73,8 +78,25 @@ final readonly class FinnHubClient implements FinnHubClientInterface
                 ]
             );
 
+            $log = new FinnHubLog(
+                status: FinnHubStatus::SUCCESS,
+                symbol: $symbol,
+                finnHubFunction: FinnHubFunction::QUOTE,
+                provider: FinnHubProvider::FINN_HUB,
+                response: $response->toArray(),
+            );
+            $this->logRepository->save($log);
+
             return $response->toArray();
         } catch (\Throwable $e) {
+            $log = new FinnHubLog(
+                status: FinnHubStatus::ERROR,
+                symbol: $symbol,
+                finnHubFunction: FinnHubFunction::QUOTE,
+                provider: FinnHubProvider::FINN_HUB,
+                response: [$e->getMessage()],
+            );
+            $this->logRepository->save($log);
             throw FinnHubConnectionException::create($e->getMessage(), (int) $e->getCode(), $e);
         }
     }

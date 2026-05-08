@@ -6,6 +6,6 @@ namespace App\Domain\FinnHub\Enum;
 
 enum FinnHubProvider: string
 {
-    case CACHE = 'Cache';
-    case FINN_HUB = 'FinnHub';
+    case CACHE = 'CACHE';
+    case FINN_HUB = 'FINN_HUB';
 }
