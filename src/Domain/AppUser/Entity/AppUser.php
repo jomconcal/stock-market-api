@@ -2,7 +2,9 @@
 
 namespace App\Domain\AppUser\Entity;
 
-use App\Domain\AppUser\Repository\AppUserRepository;
+use App\Domain\AppUser\UserRol;
+use App\Infrastructure\AppUser\Persistence\AppUserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -18,17 +20,25 @@ class AppUser
     private ?Uuid $id = null;
 
     public function __construct(
-        #[ORM\Column(length: 255)]
+        #[ORM\Column(length: 255, unique: true)]
         private string $email,
 
         #[ORM\Column(length: 255)]
         private string $password,
 
-        #[ORM\Column]
+        #[ORM\Column(length: 255)]
+        private string $name,
+
+        #[ORM\Column(length: 255)]
+        private string $surname,
+        /**
+         * @var array<UserRol>
+         */
+        #[ORM\Column(type: Types::JSON)]
         private array $roles = [],
 
         #[ORM\Column]
-        private ?\DateTimeImmutable $createdAt,
+        private ?\DateTimeImmutable $createdAt = null,
 
         #[ORM\Column(nullable: true)]
         private ?\DateTimeImmutable $updatedAt = null,
@@ -36,45 +46,34 @@ class AppUser
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function getName(): string
     {
-        $this->password = $password;
+        return $this->name;
+    }
 
-        return $this;
+    public function getSurname(): string
+    {
+        return $this->surname;
     }
 
     public function getRoles(): array
     {
         return $this->roles;
-    }
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -85,12 +84,5 @@ class AppUser
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 }
