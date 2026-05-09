@@ -7,6 +7,7 @@ namespace App\Application\AppUser\Service;
 use App\Application\AppUser\DTO\RegisterUserInputDto;
 use App\Application\AppUser\DTO\RegisterUserOutputDto;
 use App\Application\AppUser\Mapper\AppUserFactory;
+use App\Domain\AppUser\Entity\AppUser;
 use App\Domain\AppUser\Repository\AppUserRepositoryInterface;
 
 class RegisterUserService
@@ -21,7 +22,7 @@ class RegisterUserService
         $appUser = AppUserFactory::fromInputDto($registerUserInputDto);
 
         $existingUser = $this->appUserRepository->findByEmail($appUser->getEmail());
-        if ($existingUser instanceof \App\Domain\AppUser\Entity\AppUser) {
+        if ($existingUser instanceof AppUser) {
             return RegisterUserOutputDto::createFromDuplicated($appUser->getEmail());
         }
 

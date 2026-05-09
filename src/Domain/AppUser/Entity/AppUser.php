@@ -71,6 +71,9 @@ class AppUser
         return $this->surname;
     }
 
+    /**
+     * @return UserRol[]
+     */
     public function getRoles(): array
     {
         return $this->roles;

@@ -1,0 +1,10 @@
+### Register User
+POST http://localhost:8000/stocks-market-api/resgiter/
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "Password1!",
+  "name": "John",
+  "surname": "Doe"
+}
