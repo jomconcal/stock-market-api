@@ -12,3 +12,6 @@ services:
     App\Domain\FinnHub\Client\FinnHubClientInterface:
         alias: App\Tests\Integration\FinnHub\Mocks\FinnHubClientMock
         public: true
+
+    App\Application\AppUser\Service\RegisterUserService:
+        public: true
