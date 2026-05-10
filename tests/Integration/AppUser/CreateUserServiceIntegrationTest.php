@@ -55,7 +55,7 @@ class CreateUserServiceIntegrationTest extends KernelTestCase
             'existingPassword',
             'existingName',
             'existingSurname',
-            [UserRol::USER],
+            [UserRol::ROLE_USER],
         );
         $this->appUserRepository->save($appUser);
 

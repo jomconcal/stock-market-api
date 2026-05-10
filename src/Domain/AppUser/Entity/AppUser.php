@@ -2,7 +2,6 @@
 
 namespace App\Domain\AppUser\Entity;
 
-use App\Domain\AppUser\UserRol;
 use App\Infrastructure\AppUser\Persistence\AppUserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,7 +33,7 @@ class AppUser implements UserInterface, PasswordAuthenticatedUserInterface
         #[ORM\Column(length: 255)]
         private string $surname,
         /**
-         * @var array<UserRol>
+         * @var array<string>
          */
         #[ORM\Column(type: Types::JSON)]
         private array $roles = [],
@@ -75,7 +74,7 @@ class AppUser implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return UserRol[]
+     * @return string[]
      */
     #[\Override]
     public function getRoles(): array
@@ -93,9 +92,16 @@ class AppUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updatedAt;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[\Override]
     public function getUserIdentifier(): string
     {
+        if ('' === $this->email) {
+            throw new \RuntimeException('User identifier cannot be empty');
+        }
+
         return $this->email;
     }
 }

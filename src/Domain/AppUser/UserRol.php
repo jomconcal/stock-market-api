@@ -6,7 +6,7 @@ namespace App\Domain\AppUser;
 
 enum UserRol: string
 {
-    case VISITOR = 'VISITOR';
-    case USER = 'USER';
-    case ADMIN = 'ADMIN';
+    case ROLE_VISITOR = 'ROLE_VISITOR';
+    case ROLE_USER = 'ROLE_USER';
+    case ROLE_ADMIN = 'ROLE_ADMIN';
 }

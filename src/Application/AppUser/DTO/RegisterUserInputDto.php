@@ -27,7 +27,7 @@ class RegisterUserInputDto
         #[Assert\NotBlank]
         public string $surname,
 
-        public UserRol $rol = UserRol::USER,
+        public string $rol = UserRol::ROLE_USER->value,
     ) {
     }
 }
