@@ -17,7 +17,7 @@ final class QuoteController extends AbstractController
     ) {
     }
 
-    #[Route('/stocks-market-api/quote/{symbol}', methods: ['GET'])]
+    #[Route('/stock-market-api/quote/{symbol}', methods: ['GET'])]
     public function getQuote(string $symbol): JsonResponse
     {
         try {

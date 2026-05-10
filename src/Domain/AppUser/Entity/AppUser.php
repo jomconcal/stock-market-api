@@ -8,10 +8,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: AppUserRepository::class)]
-class AppUser
+class AppUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -56,6 +58,7 @@ class AppUser
         return $this->email;
     }
 
+    #[\Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -74,6 +77,7 @@ class AppUser
     /**
      * @return UserRol[]
      */
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -87,5 +91,11 @@ class AppUser
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    #[\Override]
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
