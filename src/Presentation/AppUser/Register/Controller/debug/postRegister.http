@@ -1,5 +1,5 @@
 ### Register User
-POST http://localhost:8000/stocks-market-api/resgiter/
+POST http://localhost:8000/stocks-market-api/register/
 Content-Type: application/json
 
 {

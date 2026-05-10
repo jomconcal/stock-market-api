@@ -1,6 +1,26 @@
 services:
+  stock_market_api_php:
+    container_name: stock_market_api_php
+    build: .
+    depends_on:
+        - stock_market_api_mysql
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+
+  nginx:
+    container_name: stock_market_api_nginx
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - stock_market_api_php
   ###> doctrine/doctrine-bundle ###
-  mysql:
+  stock_market_api_mysql:
+    container_name: stock_market_api_mysql
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: stock-market
@@ -13,7 +33,7 @@ services:
       retries: 5
       start_period: 60s
     ports:
-      - "20001:3306"
+      - "3306:3306"
     volumes:
       - database_data:/var/lib/mysql:rw
 ###< doctrine/doctrine-bundle ###
