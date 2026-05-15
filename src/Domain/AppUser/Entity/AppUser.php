@@ -2,16 +2,17 @@
 
 namespace App\Domain\AppUser\Entity;
 
-use App\Domain\AppUser\UserRol;
 use App\Infrastructure\AppUser\Persistence\AppUserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: AppUserRepository::class)]
-class AppUser
+class AppUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -32,7 +33,7 @@ class AppUser
         #[ORM\Column(length: 255)]
         private string $surname,
         /**
-         * @var array<UserRol>
+         * @var array<string>
          */
         #[ORM\Column(type: Types::JSON)]
         private array $roles = [],
@@ -56,6 +57,7 @@ class AppUser
         return $this->email;
     }
 
+    #[\Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -72,8 +74,9 @@ class AppUser
     }
 
     /**
-     * @return UserRol[]
+     * @return string[]
      */
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -87,5 +90,18 @@ class AppUser
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    #[\Override]
+    public function getUserIdentifier(): string
+    {
+        if ('' === $this->email) {
+            throw new \RuntimeException('User identifier cannot be empty');
+        }
+
+        return $this->email;
     }
 }

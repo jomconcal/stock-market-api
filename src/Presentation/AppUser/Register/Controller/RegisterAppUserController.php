@@ -18,7 +18,7 @@ class RegisterAppUserController extends AbstractController
     ) {
     }
 
-    #[Route('/stocks-market-api/register/', methods: ['POST'])]
+    #[Route('/stock-market-api/register', methods: ['POST'])]
     public function postNewAppUser(
         #[MapRequestPayload]
         RegisterUserInputDto $registerUserInputDto,

@@ -10,3 +10,6 @@
 controllers:
     resource: ../src/
     type: attribute
+
+api_login_check:
+    path: /stock-market-api/login

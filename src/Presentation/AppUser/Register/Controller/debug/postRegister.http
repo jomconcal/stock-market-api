@@ -1,5 +1,5 @@
 ### Register User
-POST http://localhost:8000/stocks-market-api/register/
+POST http://localhost:8000/stock-market-api/register
 Content-Type: application/json
 
 {
@@ -8,3 +8,13 @@ Content-Type: application/json
   "name": "John",
   "surname": "Doe"
 }
+
+### Login User
+POST http://localhost:8000/stock-market-api/login
+Content-Type: application/json
+
+{
+"username": "test@test.com",
+"password": "Password1!"
+}
+

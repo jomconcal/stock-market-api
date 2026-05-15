@@ -3,7 +3,7 @@ services:
     container_name: stock_market_api_php
     build: .
     depends_on:
-        - stock_market_api_mysql
+      - stock_market_api_mysql
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
