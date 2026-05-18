@@ -11,3 +11,6 @@ o fuera:
 ```bash
 docker exec -it stock_market_api_php php bin/console lexik:jwt:generate-keypai
 ```
+
+Add XDEBUG_SESSION_START: PHPSTORM
+to debug and endpoint
