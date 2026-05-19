@@ -33,3 +33,11 @@ services:
     App\Application\FinnHub\Service\QuoteService:
         arguments:
             $client: '@app.finn_hub_client'
+
+    App\Infrastructure\Symfony\AuthenticationSuccessListener:
+        tags:
+            - {
+                name: kernel.event_listener,
+                event: lexik_jwt_authentication.on_authentication_success,
+                method: onAuthenticationSuccessResponse
+            }
