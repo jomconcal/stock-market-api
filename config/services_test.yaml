@@ -15,3 +15,7 @@ services:
 
     App\Application\AppUser\Service\RegisterUserService:
         public: true
+
+    lexik_jwt_authentication.jwt_manager:
+        class: App\Tests\Integration\AppUser\Mocks\JWTManagerMock
+        public: true
